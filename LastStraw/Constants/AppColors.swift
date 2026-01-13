@@ -11,8 +11,8 @@ extension Color {
     static let appBackground = Color(hex: "FAF8F5")
     static let appPrimary = Color(hex: "8FA989")
     static let appSecondary = Color(hex: "E8A598")
-    static let appText = Color(hex: "3D3D3D")
-    static let appTextSecondary = Color(hex: "6B6B6B")
+    static let appText = Color(hex: "1A1A1A")
+    static let appTextSecondary = Color(hex: "5C5C5C")
     static let appCardBackground = Color.white
     
     init(hex: String) {

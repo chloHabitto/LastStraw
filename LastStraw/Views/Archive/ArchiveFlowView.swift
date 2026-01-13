@@ -58,9 +58,11 @@ struct ArchiveFlowView: View {
                                     )
                             } header: {
                                 Text("Reflection")
+                                    .foregroundColor(.appText)
                             } footer: {
                                 Text("What did tracking this teach you about yourself?")
                                     .font(.system(size: 14))
+                                    .foregroundColor(.appTextSecondary)
                             }
                             
                             Section {
@@ -73,9 +75,11 @@ struct ArchiveFlowView: View {
                                 .font(.system(size: 16))
                             } header: {
                                 Text("What are you choosing to do?")
+                                    .foregroundColor(.appText)
                             } footer: {
                                 Text("Optional, but can be helpful for closure.")
                                     .font(.system(size: 14))
+                                    .foregroundColor(.appTextSecondary)
                             }
                         }
                         .scrollContentBackground(.hidden)

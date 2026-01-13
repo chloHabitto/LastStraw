@@ -46,6 +46,7 @@ struct LogStrawView: View {
                         }
                     } header: {
                         Text("What happened?")
+                            .foregroundColor(.appText)
                     }
                     
                     Section {
@@ -58,18 +59,22 @@ struct LogStrawView: View {
                             )
                     } header: {
                         Text("How did it make you feel?")
+                            .foregroundColor(.appText)
                     } footer: {
                         Text("Optional, but helpful for reflection later.")
                             .font(.system(size: 14))
+                            .foregroundColor(.appTextSecondary)
                     }
                     
                     Section {
                         EmotionTagPicker(selectedEmotions: $selectedEmotions)
                     } header: {
                         Text("Emotions")
+                            .foregroundColor(.appText)
                     } footer: {
                         Text("Select any that apply.")
                             .font(.system(size: 14))
+                            .foregroundColor(.appTextSecondary)
                     }
                 }
                 .scrollContentBackground(.hidden)

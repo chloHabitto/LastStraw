@@ -33,9 +33,11 @@ struct IncreaseThresholdView: View {
                         }
                     } header: {
                         Text("New Threshold")
+                            .foregroundColor(.appText)
                     } footer: {
                         Text("You can always change this later.")
                             .font(.system(size: 14))
+                            .foregroundColor(.appTextSecondary)
                     }
                 }
                 .scrollContentBackground(.hidden)

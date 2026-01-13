@@ -27,6 +27,7 @@ struct AddPersonView: View {
                             .font(.system(size: 16))
                     } header: {
                         Text("Who is this about?")
+                            .foregroundColor(.appText)
                     }
                     
                     Section {
@@ -38,6 +39,7 @@ struct AddPersonView: View {
                         .font(.system(size: 16))
                     } header: {
                         Text("Relationship Type")
+                            .foregroundColor(.appText)
                     }
                     
                     Section {
@@ -53,6 +55,7 @@ struct AddPersonView: View {
                         }
                     } header: {
                         Text("Threshold")
+                            .foregroundColor(.appText)
                     }
                 }
                 .scrollContentBackground(.hidden)
