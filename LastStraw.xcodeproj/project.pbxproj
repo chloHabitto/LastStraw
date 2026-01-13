@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8927A6072F169DBB00DE7215 /* LastStraw-AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */; };
-		8927A6082F169DBB00DE7215 /* LastStraw-AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */; };
-		8927A6092F169DBB00DE7215 /* LastStraw-AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
