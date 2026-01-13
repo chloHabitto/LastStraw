@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8927A6072F169DBB00DE7215 /* LastStraw-AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */; };
+		8927A6082F169DBB00DE7215 /* LastStraw-AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */; };
+		8927A6092F169DBB00DE7215 /* LastStraw-AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		89EF8EC02F168A3800D177F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,35 +30,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "LastStraw-AppIcon.icon"; sourceTree = "<group>"; };
 		89EF8EB22F168A3600D177F7 /* LastStraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LastStraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89EF8EBF2F168A3800D177F7 /* LastStrawTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastStrawTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89EF8EC92F168A3800D177F7 /* LastStrawUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastStrawUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		89EF8F242F169BD900D177F7 /* Exceptions for "LastStraw" folder in "LastStrawTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				AppIcon.icon,
-			);
-			target = 89EF8EBE2F168A3800D177F7 /* LastStrawTests */;
-		};
-		89EF8F252F169BD900D177F7 /* Exceptions for "LastStraw" folder in "LastStrawUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				AppIcon.icon,
-			);
-			target = 89EF8EC82F168A3800D177F7 /* LastStrawUITests */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		89EF8EB42F168A3600D177F7 /* LastStraw */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				89EF8F242F169BD900D177F7 /* Exceptions for "LastStraw" folder in "LastStrawTests" target */,
-				89EF8F252F169BD900D177F7 /* Exceptions for "LastStraw" folder in "LastStrawUITests" target */,
-			);
 			path = LastStraw;
 			sourceTree = "<group>";
 		};
@@ -100,6 +86,7 @@
 				89EF8EC22F168A3800D177F7 /* LastStrawTests */,
 				89EF8ECC2F168A3800D177F7 /* LastStrawUITests */,
 				89EF8EB32F168A3600D177F7 /* Products */,
+				8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */,
 			);
 			sourceTree = "<group>";
 		};
@@ -418,6 +405,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleIconName = "LastStraw-AppIcon";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -461,6 +449,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleIconName = "LastStraw-AppIcon";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
