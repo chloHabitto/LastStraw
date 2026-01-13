@@ -81,9 +81,9 @@ struct ArchiveFlowView: View {
                         .scrollContentBackground(.hidden)
                         .frame(height: 300)
                         
-                        AppButton(title: "Archive", style: .primary) {
+                        AppButton(title: "Archive", action: {
                             archivePerson()
-                        }
+                        }, style: .primary)
                         .padding(.horizontal, 16)
                         .padding(.bottom, 20)
                     }
