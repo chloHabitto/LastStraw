@@ -25,13 +25,9 @@ struct ThresholdReachedBanner: View {
             }
             
             VStack(spacing: 12) {
-                AppButton(title: "I want to sit with this more", style: .secondary) {
-                    onSitWithIt()
-                }
+                AppButton(title: "I want to sit with this more", action: { onSitWithIt() }, style: .secondary)
                 
-                AppButton(title: "I'm ready to make a decision", style: .primary) {
-                    onMakeDecision()
-                }
+                AppButton(title: "I'm ready to make a decision", action: { onMakeDecision() }, style: .primary)
                 
                 Button(action: onKeepObserving) {
                     Text("I want to keep observing")
