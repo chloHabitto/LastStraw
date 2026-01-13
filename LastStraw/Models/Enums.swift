@@ -27,3 +27,9 @@ enum EmotionTag: String, Codable, CaseIterable {
     case gaslit = "Gaslit"
     case sad = "Sad"
 }
+
+enum AppearanceMode: String, Codable, CaseIterable {
+    case auto = "Auto"
+    case light = "Light"
+    case dark = "Dark"
+}

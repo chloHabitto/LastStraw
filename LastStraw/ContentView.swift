@@ -9,6 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @AppStorage("appearanceMode") private var appearanceModeRawValue: String = AppearanceMode.auto.rawValue
+    
+    private var appearanceMode: AppearanceMode {
+        AppearanceMode(rawValue: appearanceModeRawValue) ?? .auto
+    }
+    
     var body: some View {
         TabView {
             HomeView()
@@ -20,8 +26,14 @@ struct ContentView: View {
                 .tabItem {
                     Label("Archive", systemImage: "archivebox.fill")
                 }
+            
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape.fill")
+                }
         }
         .tint(.appPrimary)
+        .preferredColorScheme(appearanceMode.colorScheme)
     }
 }
 
