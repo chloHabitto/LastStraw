@@ -130,41 +130,72 @@ struct PersonDetailView: View {
         }
         .overlay(alignment: .bottom) {
             if !person.isArchived {
-                HStack(spacing: 12) {
+                HStack(spacing: 8) {
                     Button(action: { showAddBloom = true }) {
                         HStack(spacing: 8) {
                             Image(systemName: "leaf.fill")
+                                .font(.system(size: 16))
+                                .foregroundColor(accent)
                             Text("Add a bloom")
+                                .font(.display(14, weight: .medium))
+                                .foregroundColor(theme.foreground)
                         }
-                        .font(.display(14, weight: .medium))
-                        .foregroundColor(theme.foreground)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 14)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
                     }
-                    .background(.ultraThinMaterial)
-                    .clipShape(Capsule())
-                    .overlay(Capsule().stroke(accent.opacity(0.3), lineWidth: 1))
+                    .background(
+                        RoundedRectangle(cornerRadius: 28)
+                            .fill(theme.card.opacity(0.9))
+                            .background(.ultraThinMaterial)
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 28))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 28)
+                            .stroke(accent.opacity(0.3), lineWidth: 2)
+                    )
 
                     Button(action: { showLogStraw = true }) {
                         HStack(spacing: 8) {
                             Image(systemName: "plus")
+                                .font(.system(size: 16, weight: .semibold))
                             Text("Log a straw")
+                                .font(.display(14, weight: .medium))
                         }
-                        .font(.display(14, weight: .medium))
                         .foregroundColor(theme.primaryForeground)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 14)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
                     }
-                    .background(accent)
-                    .clipShape(Capsule())
+                    .background(
+                        LinearGradient(
+                            colors: [
+                                accent,
+                                accent.opacity(0.85)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 28))
+                    .shadow(color: accent.opacity(0.3), radius: 12, x: 0, y: 4)
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 16)
                 .padding(.bottom, 24)
             }
         }
         .navigationTitle(person.name)
         .navigationBarTitleDisplayMode(.large)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 16, weight: .semibold))
+                        Text("Back")
+                    }
+                    .foregroundColor(accent)
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button(action: { showLogStraw = true }) {

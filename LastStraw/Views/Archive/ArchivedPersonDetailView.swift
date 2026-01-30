@@ -88,7 +88,18 @@ struct ArchivedPersonDetailView: View {
         }
         .navigationTitle(person.name)
         .navigationBarTitleDisplayMode(.large)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 16, weight: .semibold))
+                        Text("Back")
+                    }
+                    .foregroundColor(accent)
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: unarchivePerson) {
                     Label("Restore", systemImage: "arrow.uturn.backward")

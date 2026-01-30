@@ -17,6 +17,7 @@ struct HomeView: View {
     ) private var activePeople: [Person]
     
     @State private var showAddPerson = false
+    @State private var selectedPerson: Person?
     
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     private var accent: Color { settings.accentColor.color }
@@ -63,7 +64,9 @@ struct HomeView: View {
 
                             LazyVStack(spacing: 16) {
                                 ForEach(activePeople) { person in
-                                    NavigationLink(destination: PersonDetailView(person: person)) {
+                                    Button {
+                                        selectedPerson = person
+                                    } label: {
                                         PersonRowView(person: person)
                                     }
                                     .buttonStyle(.plain)
@@ -95,6 +98,12 @@ struct HomeView: View {
                 AddPersonView()
                     .environmentObject(settings)
                     .presentationCornerRadius(32)
+            }
+            .fullScreenCover(item: $selectedPerson) { person in
+                NavigationStack {
+                    PersonDetailView(person: person)
+                        .environmentObject(settings)
+                }
             }
         }
     }

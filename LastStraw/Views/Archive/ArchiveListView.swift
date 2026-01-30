@@ -8,6 +8,8 @@ import SwiftData
 
 struct ArchiveListView: View {
     @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var settings: AppSettings
+    @State private var selectedArchivedPerson: Person?
     @Query(
         filter: #Predicate<Person> { $0.isArchived },
         sort: \Person.archivedAt,
@@ -51,7 +53,9 @@ struct ArchiveListView: View {
                         } else {
                             LazyVStack(spacing: 16) {
                                 ForEach(Array(archivedPeople.enumerated()), id: \.element.id) { index, person in
-                                    NavigationLink(destination: ArchivedPersonDetailView(person: person)) {
+                                    Button {
+                                        selectedArchivedPerson = person
+                                    } label: {
                                         ArchivedPersonRowView(person: person)
                                     }
                                     .buttonStyle(.plain)
@@ -65,6 +69,12 @@ struct ArchiveListView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
+            .fullScreenCover(item: $selectedArchivedPerson) { person in
+                NavigationStack {
+                    ArchivedPersonDetailView(person: person)
+                        .environmentObject(settings)
+                }
+            }
         }
     }
 }
