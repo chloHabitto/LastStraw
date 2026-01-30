@@ -86,18 +86,14 @@ struct ArchivedPersonDetailView: View {
                 .padding(.bottom, 20)
             }
         }
-        .navigationTitle(person.name)
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: { dismiss() }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 16, weight: .semibold))
-                        Text("Back")
-                    }
-                    .foregroundColor(accent)
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(accent)
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {

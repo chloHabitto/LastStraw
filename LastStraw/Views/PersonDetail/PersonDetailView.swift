@@ -147,12 +147,13 @@ struct PersonDetailView: View {
                         RoundedRectangle(cornerRadius: 28)
                             .fill(theme.card.opacity(0.9))
                             .background(.ultraThinMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 28))
                     )
-                    .clipShape(RoundedRectangle(cornerRadius: 28))
                     .overlay(
                         RoundedRectangle(cornerRadius: 28)
                             .stroke(accent.opacity(0.3), lineWidth: 2)
                     )
+                    .clipShape(RoundedRectangle(cornerRadius: 28))
 
                     Button(action: { showLogStraw = true }) {
                         HStack(spacing: 8) {
@@ -161,39 +162,26 @@ struct PersonDetailView: View {
                             Text("Log a straw")
                                 .font(.display(14, weight: .medium))
                         }
-                        .foregroundColor(theme.primaryForeground)
+                        .foregroundColor(theme.foreground)
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
                     }
-                    .background(
-                        LinearGradient(
-                            colors: [
-                                accent,
-                                accent.opacity(0.85)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+                    .background(Theme.gradientY2K)
                     .clipShape(RoundedRectangle(cornerRadius: 28))
-                    .shadow(color: accent.opacity(0.3), radius: 12, x: 0, y: 4)
+                    .shadow(color: theme.primary.opacity(0.25), radius: 12, x: 0, y: 4)
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 24)
             }
         }
-        .navigationTitle(person.name)
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: { dismiss() }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 16, weight: .semibold))
-                        Text("Back")
-                    }
-                    .foregroundColor(accent)
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(accent)
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
