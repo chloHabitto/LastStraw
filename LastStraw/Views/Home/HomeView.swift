@@ -89,6 +89,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showAddPerson) {
                 AddPersonView()
+                    .presentationCornerRadius(32)
             }
         }
     }

@@ -5,35 +5,51 @@
 
 import SwiftUI
 
-struct DefaultsSection: View {
+/// Detail page for defaults: threshold slider and navigation to default emotions.
+struct DefaultsDetailView: View {
     @EnvironmentObject private var settings: AppSettings
     @Environment(\.colorScheme) private var colorScheme
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     
     var body: some View {
-        Section {
-            HStack {
-                Text("Default threshold")
-                    .foregroundColor(theme.foreground)
-                Spacer()
-                Text("\(settings.defaultThreshold) moments")
-                    .foregroundColor(theme.mutedForeground)
+        ZStack {
+            theme.background.ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    SettingsSection(title: "Default threshold") {
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Text("\(settings.defaultThreshold) moments")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(theme.foreground)
+                                Spacer()
+                            }
+                            Slider(
+                                value: Binding(
+                                    get: { Double(settings.defaultThreshold) },
+                                    set: { settings.defaultThreshold = Int($0.rounded()) }
+                                ),
+                                in: 3...10,
+                                step: 1
+                            )
+                            .tint(theme.primary)
+                        }
+                    }
+                    
+                    SettingsSection(title: "Default emotions") {
+                        NavigationLink {
+                            DefaultEmotionsView()
+                        } label: {
+                            SettingsRow(icon: "face.smiling.fill", label: "Default emotions", description: "Choose emotions for new straws", showChevron: true)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(20)
             }
-            Slider(value: Binding(
-                get: { Double(settings.defaultThreshold) },
-                set: { settings.defaultThreshold = Int($0.rounded()) }
-            ), in: 3...10, step: 1)
-            .tint(theme.primary)
-            NavigationLink {
-                DefaultEmotionsView()
-            } label: {
-                Text("Default emotions")
-                    .foregroundColor(theme.foreground)
-            }
-        } header: {
-            Text("Defaults")
-                .foregroundColor(theme.mutedForeground)
         }
+        .navigationTitle("Defaults")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -43,32 +59,60 @@ struct DefaultEmotionsView: View {
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     
     var body: some View {
-        List {
-            ForEach(Emotion.allCases, id: \.self) { emotion in
-                let isSelected = settings.defaultEmotions.contains(emotion)
-                Button(action: {
-                    var current = settings.defaultEmotions
-                    if isSelected {
-                        current.removeAll { $0 == emotion }
-                    } else {
-                        current.append(emotion)
-                    }
-                    settings.defaultEmotions = current.isEmpty ? Emotion.allCases : current
-                }) {
-                    HStack {
-                        Text(emotion.emoji)
-                        Text(emotion.label)
-                            .foregroundColor(theme.foreground)
-                        Spacer()
-                        if isSelected {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(theme.primary)
+        ZStack {
+            theme.background.ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    SettingsSection(title: "Emotions") {
+                        VStack(spacing: 0) {
+                            ForEach(Array(Emotion.allCases.enumerated()), id: \.element) { index, emotion in
+                                let isSelected = settings.defaultEmotions.contains(emotion)
+                                Button {
+                                    var current = settings.defaultEmotions
+                                    if isSelected {
+                                        current.removeAll { $0 == emotion }
+                                    } else {
+                                        current.append(emotion)
+                                    }
+                                    settings.defaultEmotions = current.isEmpty ? Emotion.allCases : current
+                                } label: {
+                                    HStack(spacing: 12) {
+                                        Text(emotion.emoji)
+                                            .font(.system(size: 20))
+                                        Text(emotion.label)
+                                            .font(.system(size: 16, weight: .medium))
+                                            .foregroundColor(theme.foreground)
+                                        Spacer()
+                                        if isSelected {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .foregroundColor(theme.primary)
+                                        }
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 12)
+                                }
+                                .buttonStyle(.plain)
+                                if index < Emotion.allCases.count - 1 {
+                                    Rectangle()
+                                        .fill(theme.border.opacity(0.3))
+                                        .frame(height: 1)
+                                        .padding(.leading, 16 + 12 + 40)
+                                }
+                            }
                         }
                     }
                 }
+                .padding(20)
             }
         }
         .navigationTitle("Default emotions")
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        DefaultsDetailView()
+            .environmentObject(AppSettings())
     }
 }

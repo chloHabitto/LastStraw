@@ -7,7 +7,8 @@ import SwiftUI
 import SwiftData
 import UIKit
 
-struct DataSection: View {
+/// Detail page for data: export, iCloud (disabled), delete all with confirmation.
+struct DataDetailView: View {
     @EnvironmentObject private var settings: AppSettings
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.modelContext) private var modelContext
@@ -15,39 +16,50 @@ struct DataSection: View {
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     
     var body: some View {
-        Section {
-            NavigationLink {
-                ExportDataView()
-            } label: {
-                Text("Export my data")
-                    .foregroundColor(theme.foreground)
+        ZStack {
+            theme.background.ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    SettingsSection(title: "Your data") {
+                        VStack(spacing: 0) {
+                            NavigationLink {
+                                ExportDataView()
+                            } label: {
+                                SettingsRow(icon: "square.and.arrow.up", label: "Export my data", description: "Share or save as JSON", showChevron: true, trailing: { EmptyView() })
+                            }
+                            .buttonStyle(.plain)
+                            rowDivider
+                            SettingsRow(icon: "icloud.fill", label: "iCloud Sync", description: "Coming soon", trailing: { Text("Soon").font(.caption).foregroundColor(theme.mutedForeground) })
+                                .opacity(0.7)
+                                .allowsHitTesting(false)
+                            rowDivider
+                            Button {
+                                showDeleteConfirmation = true
+                            } label: {
+                                SettingsRow(icon: "trash.fill", label: "Delete all data", description: "Permanent and irreversible", isDestructive: true, trailing: { EmptyView() })
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+                .padding(20)
             }
-            HStack {
-                Text("iCloud Sync")
-                    .foregroundColor(theme.foreground)
-                Spacer()
-                Text("Coming soon")
-                    .font(.caption)
-                    .foregroundColor(theme.mutedForeground)
-            }
-            .disabled(true)
-            Button(role: .destructive) {
-                showDeleteConfirmation = true
-            } label: {
-                Text("Delete all data")
-            }
-        } header: {
-            Text("Your data")
-                .foregroundColor(theme.mutedForeground)
         }
+        .navigationTitle("Your data")
+        .navigationBarTitleDisplayMode(.inline)
         .alert("Delete all data?", isPresented: $showDeleteConfirmation) {
             Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
-                deleteAllData()
-            }
+            Button("Delete", role: .destructive) { deleteAllData() }
         } message: {
             Text("This will permanently delete all people, straws, and blooms. This cannot be undone.")
         }
+    }
+    
+    private var rowDivider: some View {
+        Rectangle()
+            .fill(theme.border.opacity(0.3))
+            .frame(height: 1)
+            .padding(.leading, 16 + 36 + 12)
     }
     
     private func deleteAllData() {
@@ -66,15 +78,31 @@ struct ExportDataView: View {
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     
     var body: some View {
-        List {
-            Section {
-                Text("Export all people, straws, and blooms as JSON. Use Share or Files to save.")
-                    .font(.footnote)
-                    .foregroundColor(theme.mutedForeground)
-                Button("Export JSON") {
-                    exportJSON()
+        ZStack {
+            theme.background.ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    SettingsSection(title: "Export") {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Export all people, straws, and blooms as JSON. Use Share or Files to save.")
+                                .font(.system(size: 13))
+                                .foregroundColor(theme.mutedForeground)
+                            Button {
+                                exportJSON()
+                            } label: {
+                                Text("Export JSON")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(theme.primaryForeground)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
+                                    .background(theme.primary)
+                                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
                 }
-                .foregroundColor(theme.primary)
+                .padding(20)
             }
         }
         .navigationTitle("Export data")
@@ -140,5 +168,12 @@ struct ExportDataView: View {
            let rootVC = windowScene.windows.first?.rootViewController {
             rootVC.present(activityVC, animated: true)
         }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        DataDetailView()
+            .environmentObject(AppSettings())
     }
 }

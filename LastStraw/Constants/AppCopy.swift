@@ -18,6 +18,21 @@ enum AppCopy {
     static let archiveReflectionPlaceholder = "What did tracking this teach you about yourself?"
     static let archiveComplete = "You trusted yourself. That's the whole point."
     static let thresholdQuestion = "How many moments like this would you need to see before you feel clear enough to decide?"
+    
+    // MARK: - Settings
+    static let settingsSubtitle = "Customize your experience"
+    static let settingsMissionTagline = "A place to believe yourself, until you're ready to decide."
+    
+    // MARK: - Add Person (conversational)
+    static let addPersonTitle = "Add someone to observe"
+    static let addPersonDescription = "This is a safe space to understand your patterns, not to keep score."
+    static let addPersonNameLabel = "Their name"
+    static let addPersonNamePlaceholder = "First name or nickname"
+    static let addPersonRelationshipLabel = "Your relationship"
+    static let addPersonRelationshipPlaceholder = "e.g., Partner, Friend, Coworker"
+    static let addPersonRelationshipOtherPlaceholder = "Describe your relationship"
+    static let thresholdLabel = "How many moments before taking stock?"
+    static let thresholdHelper = "After %d moments, you'll get a gentle reminder to reflect."
     static let whatHappenedPlaceholder = "What happened?"
     static let howIFeltPlaceholder = "How did it make you feel?"
 }

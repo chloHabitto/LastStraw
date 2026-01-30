@@ -18,10 +18,24 @@ struct AddPersonView: View {
     @State private var threshold: Int = 5
     
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
-    private var accent: Color { settings.accentColor.color }
     
     private var relationshipValue: String {
         relationshipType == .other ? relationshipCustom : relationshipType.rawValue
+    }
+    
+    private var displayRelationshipText: String {
+        relationshipType == .other
+            ? (relationshipCustom.isEmpty ? AppCopy.addPersonRelationshipPlaceholder : relationshipCustom)
+            : relationshipType.rawValue
+    }
+    
+    private var canSave: Bool {
+        let trimmedName = name.trimmingCharacters(in: .whitespaces)
+        guard !trimmedName.isEmpty else { return false }
+        if relationshipType == .other {
+            return !relationshipCustom.trimmingCharacters(in: .whitespaces).isEmpty
+        }
+        return true
     }
     
     var body: some View {
@@ -29,64 +43,90 @@ struct AddPersonView: View {
             ZStack {
                 theme.background.ignoresSafeArea()
                 
-                Form {
-                    Section {
-                        TextField("Name", text: $name)
-                            .font(.body)
-                    } header: {
-                        Text("Who is this about?")
-                            .foregroundColor(theme.foreground)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        header
+                        nameField
+                        relationshipField
+                        thresholdField
+                        actions
                     }
-                    
-                    Section {
-                        Picker("Relationship", selection: $relationshipType) {
-                            ForEach(RelationshipType.allCases, id: \.self) { type in
-                                Text(type.rawValue).tag(type)
-                            }
-                        }
-                        .font(.body)
-                        
-                        if relationshipType == .other {
-                            TextField("Describe relationship", text: $relationshipCustom)
-                                .font(.body)
-                        }
-                    } header: {
-                        Text("Relationship")
-                            .foregroundColor(theme.foreground)
-                    }
-                    
-                    Section {
-                        Stepper(value: $threshold, in: 3...10) {
-                            Text("\(threshold) moments")
-                                .font(.body)
-                        }
-                        Text(AppCopy.thresholdQuestion)
-                            .font(.footnote)
-                            .foregroundColor(theme.mutedForeground)
-                    } header: {
-                        Text("Threshold")
-                            .foregroundColor(theme.foreground)
-                    }
+                    .padding(24)
                 }
-                .scrollContentBackground(.hidden)
             }
-            .navigationTitle("Add Person")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear { threshold = settings.defaultThreshold }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") { dismiss() }
-                        .foregroundColor(theme.foreground)
+        }
+    }
+    
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(AppCopy.addPersonTitle)
+                .font(.display(24, weight: .bold))
+                .foregroundColor(theme.foreground)
+            Text(AppCopy.addPersonDescription)
+                .font(.body)
+                .foregroundColor(theme.mutedForeground)
+        }
+    }
+    
+    private var nameField: some View {
+        BubbleTextField(
+            label: AppCopy.addPersonNameLabel,
+            placeholder: AppCopy.addPersonNamePlaceholder,
+            text: $name
+        )
+    }
+    
+    private var relationshipField: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(AppCopy.addPersonRelationshipLabel)
+                .font(.body)
+                .foregroundColor(theme.foreground)
+            
+            Menu {
+                ForEach(RelationshipType.allCases, id: \.self) { type in
+                    Button(type.rawValue) { relationshipType = type }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        savePerson()
-                    }
-                    .foregroundColor(accent)
-                    .fontWeight(.semibold)
-                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || (relationshipType == .other && relationshipCustom.trimmingCharacters(in: .whitespaces).isEmpty))
+            } label: {
+                HStack {
+                    Text(displayRelationshipText)
+                        .font(.body)
+                        .foregroundColor(displayRelationshipText == AppCopy.addPersonRelationshipPlaceholder ? theme.mutedForeground : theme.foreground)
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .font(.body.weight(.medium))
+                        .foregroundColor(theme.mutedForeground)
                 }
+                .padding(.horizontal, 16)
+                .frame(height: 48)
+                .frame(maxWidth: .infinity)
+                .background(theme.input)
+                .clipShape(RoundedRectangle(cornerRadius: 32))
             }
+            
+            if relationshipType == .other {
+                BubbleTextField(
+                    label: "",
+                    placeholder: AppCopy.addPersonRelationshipOtherPlaceholder,
+                    text: $relationshipCustom
+                )
+            }
+        }
+    }
+    
+    private var thresholdField: some View {
+        BubbleSlider(
+            label: AppCopy.thresholdLabel,
+            helperFormat: AppCopy.thresholdHelper,
+            value: $threshold
+        )
+    }
+    
+    private var actions: some View {
+        VStack(spacing: 12) {
+            BubbleButton(title: "Save", action: savePerson, isDisabled: !canSave)
+            BubbleButton(title: "Cancel", action: { dismiss() }, style: .secondary)
         }
     }
     
