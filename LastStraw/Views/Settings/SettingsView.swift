@@ -2,50 +2,29 @@
 //  SettingsView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("appearanceMode") private var appearanceModeRawValue: String = AppearanceMode.auto.rawValue
+    @EnvironmentObject private var settings: AppSettings
+    @Environment(\.colorScheme) private var colorScheme
     
-    private var appearanceMode: Binding<AppearanceMode> {
-        Binding(
-            get: {
-                AppearanceMode(rawValue: appearanceModeRawValue) ?? .auto
-            },
-            set: {
-                appearanceModeRawValue = $0.rawValue
-            }
-        )
-    }
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.appBackground.ignoresSafeArea()
-                
-                ScrollView {
-                    VStack(spacing: 20) {
-                        AppCard {
-                            VStack(alignment: .leading, spacing: 16) {
-                                Text("Appearance")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.appText)
-                                
-                                Picker("Appearance Mode", selection: appearanceMode) {
-                                    ForEach(AppearanceMode.allCases, id: \.self) { mode in
-                                        Text(mode.rawValue).tag(mode)
-                                    }
-                                }
-                                .pickerStyle(.segmented)
-                            }
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.top, 20)
-                    }
+                theme.background.ignoresSafeArea()
+                List {
+                    AppearanceSection()
+                    NotificationsSection()
+                    PrivacySection()
+                    DefaultsSection()
+                    DataSection()
+                    AboutSection()
                 }
+                .scrollContentBackground(.hidden)
+                .listStyle(.insetGrouped)
             }
             .navigationTitle("Settings")
         }

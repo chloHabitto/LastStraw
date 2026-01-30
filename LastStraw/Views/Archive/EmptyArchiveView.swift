@@ -2,23 +2,30 @@
 //  EmptyArchiveView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 
 struct EmptyArchiveView: View {
+    @Environment(\.colorScheme) private var colorScheme
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    
     var body: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "archivebox.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.appTextSecondary.opacity(0.5))
-            
+        VStack(spacing: 24) {
+            Circle()
+                .fill(theme.muted)
+                .frame(width: 80, height: 80)
+                .overlay(
+                    Image(systemName: "archivebox.fill")
+                        .font(.system(size: 36))
+                        .foregroundColor(theme.mutedForeground)
+                )
             Text(AppCopy.emptyArchiveState)
-                .font(.system(size: 16))
-                .foregroundColor(.appTextSecondary)
+                .font(.body)
+                .foregroundColor(theme.mutedForeground)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
         }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
     }
 }

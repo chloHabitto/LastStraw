@@ -19,7 +19,7 @@ class PersonDetailViewModel {
     }
     
     var sortedStraws: [Straw] {
-        person.straws.sorted { $0.createdAt > $1.createdAt }
+        person.straws.sorted { $0.date > $1.date }
     }
     
     func addStraw(_ straw: Straw) {
@@ -32,11 +32,9 @@ class PersonDetailViewModel {
         }
     }
     
-    func archivePerson(reflection: String?, decision: String?) {
+    func archivePerson() {
         person.isArchived = true
         person.archivedAt = Date()
-        person.archiveReflection = reflection
-        person.archiveDecision = decision
         do {
             try modelContext.save()
         } catch {

@@ -2,42 +2,62 @@
 //  ContentView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
-    @AppStorage("appearanceMode") private var appearanceModeRawValue: String = AppearanceMode.auto.rawValue
+enum Tab: String, CaseIterable {
+    case home
+    case archived
+    case settings
     
-    private var appearanceMode: AppearanceMode {
-        AppearanceMode(rawValue: appearanceModeRawValue) ?? .auto
+    var icon: String {
+        switch self {
+        case .home: return "house.fill"
+        case .archived: return "archivebox.fill"
+        case .settings: return "gearshape.fill"
+        }
+    }
+    
+    var label: String { rawValue.capitalized }
+}
+
+struct ContentView: View {
+    @EnvironmentObject private var settings: AppSettings
+    @Environment(\.colorScheme) private var systemColorScheme
+    
+    private var effectiveColorScheme: ColorScheme {
+        settings.themeMode.colorScheme ?? systemColorScheme
+    }
+    
+    private var accent: Color {
+        settings.accentColor.color
     }
     
     var body: some View {
         TabView {
             HomeView()
                 .tabItem {
-                    Label("Home", systemImage: "house.fill")
+                    Label(Tab.home.label, systemImage: Tab.home.icon)
                 }
             
             ArchiveListView()
                 .tabItem {
-                    Label("Archive", systemImage: "archivebox.fill")
+                    Label(Tab.archived.label, systemImage: Tab.archived.icon)
                 }
             
             SettingsView()
                 .tabItem {
-                    Label("Settings", systemImage: "gearshape.fill")
+                    Label(Tab.settings.label, systemImage: Tab.settings.icon)
                 }
         }
-        .tint(.appPrimary)
-        .preferredColorScheme(appearanceMode.colorScheme)
+        .tint(accent)
+        .preferredColorScheme(settings.themeMode.colorScheme)
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: [Person.self, Straw.self], inMemory: true)
+        .environmentObject(AppSettings())
+        .modelContainer(for: [Person.self, Straw.self, Bloom.self, ThresholdExtension.self], inMemory: true)
 }

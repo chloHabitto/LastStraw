@@ -1,23 +1,22 @@
 //
-//  LogStrawView.swift
+//  AddBloomView.swift
 //  LastStraw
 //
 
 import SwiftUI
 import SwiftData
 
-struct LogStrawView: View {
+struct AddBloomView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: AppSettings
     
     let person: Person
-    @State private var emotion: Emotion?
+    @State private var feeling: BloomFeeling = .grateful
     @State private var note: String = ""
     @State private var showConfirmation = false
     
-    private let maxCharacters = 280
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     private var accent: Color { settings.accentColor.color }
     
@@ -27,35 +26,23 @@ struct LogStrawView: View {
                 theme.background.ignoresSafeArea()
                 Form {
                     Section {
-                        EmotionPicker(selection: $emotion)
+                        BloomFeelingPicker(selection: $feeling)
                     } header: {
                         Text("How did you feel?")
                             .foregroundColor(theme.foreground)
                     }
                     Section {
-                        VStack(alignment: .leading, spacing: 8) {
-                            TextField("What happened? (optional)", text: $note, axis: .vertical)
-                                .lineLimit(3...8)
-                                .font(.body)
-                            HStack {
-                                Spacer()
-                                Text("\(note.count)/\(maxCharacters)")
-                                    .font(.caption)
-                                    .foregroundColor(note.count > maxCharacters ? theme.destructive : theme.mutedForeground)
-                            }
-                        }
+                        TextField("Note (optional)", text: $note, axis: .vertical)
+                            .lineLimit(3...6)
+                            .font(.body)
                     } header: {
                         Text("Note")
                             .foregroundColor(theme.foreground)
-                    } footer: {
-                        Text("Optional, but helpful for reflection later.")
-                            .font(.footnote)
-                            .foregroundColor(theme.mutedForeground)
                     }
                 }
                 .scrollContentBackground(.hidden)
             }
-            .navigationTitle("Log a Moment")
+            .navigationTitle("Log a Bloom")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -64,26 +51,24 @@ struct LogStrawView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        saveStraw()
+                        saveBloom()
                     }
                     .foregroundColor(accent)
                     .fontWeight(.semibold)
-                    .disabled(emotion == nil || note.count > maxCharacters)
                 }
             }
             .alert("Saved", isPresented: $showConfirmation) {
                 Button("OK") { dismiss() }
             } message: {
-                Text(AppCopy.afterLoggingStraw)
+                Text("Your good moment is noted.")
             }
         }
     }
     
-    private func saveStraw() {
-        guard let emotion else { return }
-        let straw = Straw(emotion: emotion, note: note.trimmingCharacters(in: .whitespaces))
-        straw.person = person
-        person.straws.append(straw)
+    private func saveBloom() {
+        let bloom = Bloom(feeling: feeling, note: note.trimmingCharacters(in: .whitespaces))
+        bloom.person = person
+        person.blooms.append(bloom)
         try? modelContext.save()
         showConfirmation = true
     }

@@ -2,23 +2,37 @@
 //  EmptyHomeView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 
 struct EmptyHomeView: View {
+    @Environment(\.colorScheme) private var colorScheme
+    var onAddPerson: (() -> Void)?
+    
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    
     var body: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "person.2.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.appTextSecondary.opacity(0.5))
+        VStack(spacing: 24) {
+            Circle()
+                .fill(theme.muted)
+                .frame(width: 80, height: 80)
+                .overlay(
+                    Text("👋")
+                        .font(.system(size: 40))
+                )
             
             Text(AppCopy.emptyHomeState)
-                .font(.system(size: 16))
-                .foregroundColor(.appTextSecondary)
+                .font(.body)
+                .foregroundColor(theme.mutedForeground)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
+            
+            if let onAddPerson {
+                Button("Add your first person", action: onAddPerson)
+                    .buttonStyle(BubbleButtonStyle())
+            }
         }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
     }
 }

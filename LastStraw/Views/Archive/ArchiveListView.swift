@@ -2,24 +2,24 @@
 //  ArchiveListView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 import SwiftData
 
 struct ArchiveListView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @Query(
         filter: #Predicate<Person> { $0.isArchived },
         sort: \Person.archivedAt,
         order: .reverse
     ) private var archivedPeople: [Person]
     
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.appBackground.ignoresSafeArea()
-                
+                theme.background.ignoresSafeArea()
                 if archivedPeople.isEmpty {
                     EmptyArchiveView()
                 } else {

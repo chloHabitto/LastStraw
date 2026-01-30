@@ -2,8 +2,6 @@
 //  AddPersonView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 import SwiftData
@@ -11,23 +9,33 @@ import SwiftData
 struct AddPersonView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var settings: AppSettings
     
     @State private var name: String = ""
     @State private var relationshipType: RelationshipType = .friend
+    @State private var relationshipCustom: String = ""
     @State private var threshold: Int = 5
+    
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    private var accent: Color { settings.accentColor.color }
+    
+    private var relationshipValue: String {
+        relationshipType == .other ? relationshipCustom : relationshipType.rawValue
+    }
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.appBackground.ignoresSafeArea()
+                theme.background.ignoresSafeArea()
                 
                 Form {
                     Section {
                         TextField("Name", text: $name)
-                            .font(.system(size: 16))
+                            .font(.body)
                     } header: {
                         Text("Who is this about?")
-                            .foregroundColor(.appText)
+                            .foregroundColor(theme.foreground)
                     }
                     
                     Section {
@@ -36,47 +44,47 @@ struct AddPersonView: View {
                                 Text(type.rawValue).tag(type)
                             }
                         }
-                        .font(.system(size: 16))
+                        .font(.body)
+                        
+                        if relationshipType == .other {
+                            TextField("Describe relationship", text: $relationshipCustom)
+                                .font(.body)
+                        }
                     } header: {
-                        Text("Relationship Type")
-                            .foregroundColor(.appText)
+                        Text("Relationship")
+                            .foregroundColor(theme.foreground)
                     }
                     
                     Section {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Stepper(value: $threshold, in: 3...10) {
-                                Text("\(threshold) moments")
-                                    .font(.system(size: 16))
-                            }
-                            
-                            Text(AppCopy.thresholdQuestion)
-                                .font(.system(size: 14))
-                                .foregroundColor(.appTextSecondary)
+                        Stepper(value: $threshold, in: 3...10) {
+                            Text("\(threshold) moments")
+                                .font(.body)
                         }
+                        Text(AppCopy.thresholdQuestion)
+                            .font(.footnote)
+                            .foregroundColor(theme.mutedForeground)
                     } header: {
                         Text("Threshold")
-                            .foregroundColor(.appText)
+                            .foregroundColor(theme.foreground)
                     }
                 }
                 .scrollContentBackground(.hidden)
             }
             .navigationTitle("Add Person")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear { threshold = settings.defaultThreshold }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundColor(.appText)
+                    Button("Cancel") { dismiss() }
+                        .foregroundColor(theme.foreground)
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
                         savePerson()
                     }
-                    .foregroundColor(.appPrimary)
+                    .foregroundColor(accent)
                     .fontWeight(.semibold)
-                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
+                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || (relationshipType == .other && relationshipCustom.trimmingCharacters(in: .whitespaces).isEmpty))
                 }
             }
         }
@@ -85,13 +93,11 @@ struct AddPersonView: View {
     private func savePerson() {
         let trimmedName = name.trimmingCharacters(in: .whitespaces)
         guard !trimmedName.isEmpty else { return }
+        let rel = relationshipType == .other ? relationshipCustom.trimmingCharacters(in: .whitespaces) : relationshipType.rawValue
+        guard !rel.isEmpty else { return }
         
-        let person = Person(
-            name: trimmedName,
-            relationshipType: relationshipType,
-            threshold: threshold
-        )
-        
+        let colorIndex = Int.random(in: 0..<Theme.personColors.count)
+        let person = Person(name: trimmedName, relationship: rel, threshold: threshold, colorIndex: colorIndex)
         modelContext.insert(person)
         try? modelContext.save()
         dismiss()

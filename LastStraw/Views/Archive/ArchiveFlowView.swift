@@ -2,8 +2,6 @@
 //  ArchiveFlowView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 import SwiftData
@@ -11,37 +9,30 @@ import SwiftData
 struct ArchiveFlowView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var settings: AppSettings
     
     let person: Person
-    
     @State private var reflection: String = ""
-    @State private var decision: String = ""
     @State private var showCompletion = false
     
-    private let decisionOptions = [
-        "Talked to them",
-        "Created distance",
-        "Ended it",
-        "Letting go",
-        "Other"
-    ]
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    private var accent: Color { settings.accentColor.color }
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.appBackground.ignoresSafeArea()
-                
+                theme.background.ignoresSafeArea()
                 ScrollView {
                     VStack(spacing: 24) {
                         AppCard {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text(AppCopy.archivePrompt)
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.appText)
-                                
+                                    .font(.display(18, weight: .semibold))
+                                    .foregroundColor(theme.foreground)
                                 Text(AppCopy.archiveReflectionPlaceholder)
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.appTextSecondary)
+                                    .font(.body)
+                                    .foregroundColor(theme.mutedForeground)
                             }
                         }
                         .padding(.horizontal, 16)
@@ -49,45 +40,23 @@ struct ArchiveFlowView: View {
                         
                         Form {
                             Section {
-                                TextEditor(text: $reflection)
-                                    .frame(minHeight: 120)
-                                    .font(.system(size: 16))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(Color.appTextSecondary.opacity(0.3), lineWidth: 1)
-                                    )
+                                TextField("What did tracking this teach you?", text: $reflection, axis: .vertical)
+                                    .lineLimit(4...8)
+                                    .font(.body)
                             } header: {
-                                Text("Reflection")
-                                    .foregroundColor(.appText)
-                            } footer: {
-                                Text("What did tracking this teach you about yourself?")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.appTextSecondary)
-                            }
-                            
-                            Section {
-                                Picker("Decision", selection: $decision) {
-                                    Text("Select an option").tag("")
-                                    ForEach(decisionOptions, id: \.self) { option in
-                                        Text(option).tag(option)
-                                    }
-                                }
-                                .font(.system(size: 16))
-                            } header: {
-                                Text("What are you choosing to do?")
-                                    .foregroundColor(.appText)
-                            } footer: {
-                                Text("Optional, but can be helpful for closure.")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.appTextSecondary)
+                                Text("Reflection (optional)")
+                                    .foregroundColor(theme.foreground)
                             }
                         }
                         .scrollContentBackground(.hidden)
-                        .frame(height: 300)
+                        .frame(height: 140)
                         
-                        AppButton(title: "Archive", action: {
-                            archivePerson()
-                        }, style: .primary)
+                        Button(action: archivePerson) {
+                            Text("Archive")
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                        }
+                        .buttonStyle(BubbleButtonStyle())
                         .padding(.horizontal, 16)
                         .padding(.bottom, 20)
                     }
@@ -97,16 +66,12 @@ struct ArchiveFlowView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundColor(.appText)
+                    Button("Cancel") { dismiss() }
+                        .foregroundColor(theme.foreground)
                 }
             }
             .alert("Archived", isPresented: $showCompletion) {
-                Button("OK") {
-                    dismiss()
-                }
+                Button("OK") { dismiss() }
             } message: {
                 Text(AppCopy.archiveComplete)
             }
@@ -116,9 +81,6 @@ struct ArchiveFlowView: View {
     private func archivePerson() {
         person.isArchived = true
         person.archivedAt = Date()
-        person.archiveReflection = reflection.isEmpty ? nil : reflection
-        person.archiveDecision = decision.isEmpty ? nil : decision
-        
         try? modelContext.save()
         showCompletion = true
     }

@@ -2,14 +2,14 @@
 //  HomeView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 import SwiftData
 
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var settings: AppSettings
     @Query(
         filter: #Predicate<Person> { !$0.isArchived },
         sort: \Person.createdAt,
@@ -18,13 +18,16 @@ struct HomeView: View {
     
     @State private var showAddPerson = false
     
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    private var accent: Color { settings.accentColor.color }
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.appBackground.ignoresSafeArea()
+                theme.background.ignoresSafeArea()
                 
                 if activePeople.isEmpty {
-                    EmptyHomeView()
+                    EmptyHomeView(onAddPerson: { showAddPerson = true })
                 } else {
                     List {
                         ForEach(activePeople) { person in
@@ -46,7 +49,7 @@ struct HomeView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: { showAddPerson = true }) {
                         Image(systemName: "plus")
-                            .foregroundColor(.appPrimary)
+                            .foregroundColor(accent)
                     }
                 }
             }

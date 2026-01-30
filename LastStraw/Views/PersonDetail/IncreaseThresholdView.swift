@@ -2,8 +2,6 @@
 //  IncreaseThresholdView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 import SwiftData
@@ -11,6 +9,8 @@ import SwiftData
 struct IncreaseThresholdView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var settings: AppSettings
     
     let person: Person
     @State private var newThreshold: Int
@@ -20,48 +20,58 @@ struct IncreaseThresholdView: View {
         _newThreshold = State(initialValue: person.threshold)
     }
     
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    private var accent: Color { settings.accentColor.color }
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.appBackground.ignoresSafeArea()
-                
+                theme.background.ignoresSafeArea()
                 Form {
                     Section {
                         Stepper(value: $newThreshold, in: person.threshold...20) {
                             Text("\(newThreshold) moments")
-                                .font(.system(size: 16))
+                                .font(.body)
                         }
                     } header: {
-                        Text("New Threshold")
-                            .foregroundColor(.appText)
+                        Text("New threshold")
+                            .foregroundColor(theme.foreground)
                     } footer: {
                         Text("You can always change this later.")
-                            .font(.system(size: 14))
-                            .foregroundColor(.appTextSecondary)
+                            .font(.footnote)
+                            .foregroundColor(theme.mutedForeground)
                     }
                 }
                 .scrollContentBackground(.hidden)
             }
-            .navigationTitle("Adjust Threshold")
+            .navigationTitle("Adjust threshold")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundColor(.appText)
+                    Button("Cancel") { dismiss() }
+                        .foregroundColor(theme.foreground)
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        person.threshold = newThreshold
-                        try? modelContext.save()
-                        dismiss()
+                        saveThreshold()
                     }
-                    .foregroundColor(.appPrimary)
+                    .foregroundColor(accent)
                     .fontWeight(.semibold)
                 }
             }
         }
+    }
+    
+    private func saveThreshold() {
+        let amount = newThreshold - person.threshold
+        if amount > 0 {
+            let ext = ThresholdExtension(amount: amount, previousThreshold: person.threshold)
+            ext.person = person
+            person.thresholdExtensions.append(ext)
+        }
+        person.threshold = newThreshold
+        person.thresholdState = .observing
+        try? modelContext.save()
+        dismiss()
     }
 }

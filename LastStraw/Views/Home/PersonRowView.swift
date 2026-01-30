@@ -2,39 +2,46 @@
 //  PersonRowView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
 
 struct PersonRowView: View {
+    @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var settings: AppSettings
     let person: Person
+    
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    private var accent: Color { settings.accentColor.color }
     
     var body: some View {
         AppCard {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(person.name)
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.appText)
-                        
-                        Text(person.relationshipType.rawValue)
-                            .font(.system(size: 14))
-                            .foregroundColor(.appTextSecondary)
-                    }
+            HStack(spacing: 14) {
+                Circle()
+                    .fill(person.color)
+                    .frame(width: 44, height: 44)
+                    .overlay(
+                        Text(person.initial)
+                            .font(.display(18, weight: .bold))
+                            .foregroundColor(.white)
+                    )
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(person.name)
+                        .font(.display(18, weight: .semibold))
+                        .foregroundColor(theme.foreground)
                     
-                    Spacer()
-                    
-                    Text("\(person.strawCount) of \(person.threshold)")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.appPrimary)
+                    Text(person.relationship)
+                        .font(.subheadline)
+                        .foregroundColor(theme.mutedForeground)
                 }
                 
-                ProgressView(value: person.progress)
-                    .tint(.appPrimary)
-                    .scaleEffect(x: 1, y: 1.5, anchor: .center)
+                Spacer()
+                
+                Text("\(person.strawCount)/\(person.threshold)")
+                    .font(.display(16, weight: .medium))
+                    .foregroundColor(accent)
             }
+            .padding(.vertical, 4)
         }
     }
 }

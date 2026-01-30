@@ -2,100 +2,81 @@
 //  ArchivedPersonDetailView.swift
 //  LastStraw
 //
-//  Created by Chloe Lee on 2026-01-13.
-//
 
 import SwiftUI
+import SwiftData
 
 struct ArchivedPersonDetailView: View {
+    @Environment(\.colorScheme) private var colorScheme
     let person: Person
+    
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    
+    private var timelineItems: [ArchivedTimelineItem] {
+        let straws = person.straws.map { ArchivedTimelineItem.straw($0) }
+        let blooms = person.blooms.map { ArchivedTimelineItem.bloom($0) }
+        let exts = person.thresholdExtensions.map { ArchivedTimelineItem.extensionItem($0) }
+        return (straws + blooms + exts).sorted { $0.date > $1.date }
+    }
     
     var body: some View {
         ZStack {
-            Color.appBackground.ignoresSafeArea()
-            
+            theme.background.ignoresSafeArea()
             ScrollView {
                 VStack(spacing: 20) {
-                    // Header Card
                     AppCard {
                         VStack(alignment: .leading, spacing: 12) {
-                            Text(person.name)
-                                .font(.system(size: 24, weight: .bold))
-                                .foregroundColor(.appText)
-                            
-                            Text(person.relationshipType.rawValue)
-                                .font(.system(size: 16))
-                                .foregroundColor(.appTextSecondary)
-                            
-                            if let archivedAt = person.archivedAt {
-                                Text("Archived on \(archivedAt.formatted(style: .long))")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.appTextSecondary)
+                            HStack(spacing: 14) {
+                                Circle()
+                                    .fill(person.color)
+                                    .frame(width: 52, height: 52)
+                                    .overlay(
+                                        Text(person.initial)
+                                            .font(.display(24, weight: .bold))
+                                            .foregroundColor(.white)
+                                    )
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(person.name)
+                                        .font(.display(24, weight: .bold))
+                                        .foregroundColor(theme.foreground)
+                                    Text(person.relationship)
+                                        .font(.subheadline)
+                                        .foregroundColor(theme.mutedForeground)
+                                    if let archivedAt = person.archivedAt {
+                                        Text("Archived \(archivedAt.relativeString())")
+                                            .font(.caption)
+                                            .foregroundColor(theme.mutedForeground)
+                                    }
+                                }
+                                Spacer()
                             }
                         }
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     
-                    // Reflection
-                    if let reflection = person.archiveReflection, !reflection.isEmpty {
-                        AppCard {
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text("Reflection")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.appText)
-                                
-                                Text(reflection)
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.appText)
-                            }
-                        }
-                        .padding(.horizontal, 16)
-                    }
-                    
-                    // Decision
-                    if let decision = person.archiveDecision, !decision.isEmpty {
-                        AppCard {
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text("Decision")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.appText)
-                                
-                                Text(decision)
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.appText)
-                            }
-                        }
-                        .padding(.horizontal, 16)
-                    }
-                    
-                    // All Straws
-                    if person.straws.isEmpty {
+                    if timelineItems.isEmpty {
                         VStack(spacing: 12) {
                             Image(systemName: "leaf.fill")
                                 .font(.system(size: 40))
-                                .foregroundColor(.appTextSecondary.opacity(0.5))
-                            
+                                .foregroundColor(theme.mutedForeground.opacity(0.6))
                             Text("No moments logged")
-                                .font(.system(size: 16))
-                                .foregroundColor(.appTextSecondary)
+                                .font(.body)
+                                .foregroundColor(theme.mutedForeground)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 40)
                     } else {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("All Moments")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(.appText)
+                        LazyVStack(alignment: .leading, spacing: 12) {
+                            Text("Timeline")
+                                .font(.display(18, weight: .semibold))
+                                .foregroundColor(theme.foreground)
                                 .padding(.horizontal, 16)
-                            
-                            LazyVStack(spacing: 12) {
-                                ForEach(sortedStraws) { straw in
-                                    StrawRowView(straw: straw)
-                                }
+                            ForEach(timelineItems) { item in
+                                archivedTimelineRow(for: item)
                             }
-                            .padding(.horizontal, 16)
                         }
+                        .padding(.horizontal, 16)
                     }
                 }
                 .padding(.bottom, 20)
@@ -105,7 +86,35 @@ struct ArchivedPersonDetailView: View {
         .navigationBarTitleDisplayMode(.large)
     }
     
-    private var sortedStraws: [Straw] {
-        person.straws.sorted { $0.createdAt > $1.createdAt }
+    private enum ArchivedTimelineItem: Identifiable {
+        case straw(Straw)
+        case bloom(Bloom)
+        case extensionItem(ThresholdExtension)
+        var id: String {
+            switch self {
+            case .straw(let s): return "s-\(s.id.uuidString)"
+            case .bloom(let b): return "b-\(b.id.uuidString)"
+            case .extensionItem(let e): return "e-\(e.id.uuidString)"
+            }
+        }
+        var date: Date {
+            switch self {
+            case .straw(let s): return s.date
+            case .bloom(let b): return b.date
+            case .extensionItem(let e): return e.date
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func archivedTimelineRow(for item: ArchivedTimelineItem) -> some View {
+        switch item {
+        case .straw(let straw):
+            StrawRowView(straw: straw)
+        case .bloom(let bloom):
+            BloomRowView(bloom: bloom)
+        case .extensionItem(let ext):
+            ThresholdExtensionRowView(extensionItem: ext)
+        }
     }
 }

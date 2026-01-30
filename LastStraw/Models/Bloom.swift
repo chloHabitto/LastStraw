@@ -1,5 +1,5 @@
 //
-//  Straw.swift
+//  Bloom.swift
 //  LastStraw
 //
 
@@ -7,16 +7,16 @@ import Foundation
 import SwiftData
 
 @Model
-final class Straw {
+final class Bloom {
     var id: UUID
-    var emotion: Emotion
+    var feeling: BloomFeeling
     var note: String
     var date: Date
     var person: Person?
     
-    init(emotion: Emotion, note: String, date: Date = Date()) {
+    init(feeling: BloomFeeling, note: String, date: Date = Date()) {
         self.id = UUID()
-        self.emotion = emotion
+        self.feeling = feeling
         self.note = note
         self.date = date
     }

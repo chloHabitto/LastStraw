@@ -10,10 +10,13 @@ import SwiftData
 
 @main
 struct LastStrawApp: App {
+    @StateObject private var settings = AppSettings()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [Person.self, Straw.self])
+                .environmentObject(settings)
+                .modelContainer(for: [Person.self, Straw.self, Bloom.self, ThresholdExtension.self])
         }
     }
 }
