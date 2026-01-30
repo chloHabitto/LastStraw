@@ -49,6 +49,20 @@
 			);
 			target = 89EF8EB12F168A3600D177F7 /* LastStraw */;
 		};
+		898D1C162F2D37D60005E4A6 /* Exceptions for "LastStraw" folder in "LastStrawTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppIcon.icon,
+			);
+			target = 89EF8EBE2F168A3800D177F7 /* LastStrawTests */;
+		};
+		898D1C172F2D37D60005E4A6 /* Exceptions for "LastStraw" folder in "LastStrawUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppIcon.icon,
+			);
+			target = 89EF8EC82F168A3800D177F7 /* LastStrawUITests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -56,6 +70,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				894F9C032F2D24B80094974E /* Exceptions for "LastStraw" folder in "LastStraw" target */,
+				898D1C162F2D37D60005E4A6 /* Exceptions for "LastStraw" folder in "LastStrawTests" target */,
+				898D1C172F2D37D60005E4A6 /* Exceptions for "LastStraw" folder in "LastStrawUITests" target */,
 			);
 			path = LastStraw;
 			sourceTree = "<group>";
