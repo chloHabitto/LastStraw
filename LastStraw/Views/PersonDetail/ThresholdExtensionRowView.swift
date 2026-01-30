@@ -12,19 +12,39 @@ struct ThresholdExtensionRowView: View {
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     
     var body: some View {
-        AppCard {
-            HStack(spacing: 12) {
-                Image(systemName: "clock.badge.plus")
-                    .font(.title3)
-                    .foregroundColor(theme.mutedForeground)
-                Text("+\(extensionItem.amount) moments")
-                    .font(.display(14, weight: .medium))
-                    .foregroundColor(theme.foreground)
-                Spacer()
-                Text(extensionItem.date.relativeString())
+        HStack(alignment: .top, spacing: 12) {
+            // Icon in circle container
+            Circle()
+                .fill(theme.muted)
+                .frame(width: 32, height: 32)
+                .overlay(
+                    Image(systemName: "clock.fill")
+                        .font(.system(size: 14))
+                        .foregroundColor(theme.mutedForeground)
+                )
+            
+            // Content
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text("Extended threshold by +\(extensionItem.amount)")
+                        .font(.subheadline)
+                        .foregroundColor(theme.mutedForeground)
+                    
+                    Spacer()
+                    
+                    Text(extensionItem.date.relativeString())
+                        .font(.caption)
+                        .foregroundColor(theme.mutedForeground)
+                }
+                
+                // Show the transition
+                Text("\(extensionItem.previousThreshold) → \(extensionItem.previousThreshold + extensionItem.amount)")
                     .font(.caption)
-                    .foregroundColor(theme.mutedForeground)
+                    .foregroundColor(theme.mutedForeground.opacity(0.7))
             }
         }
+        .padding(16)
+        .background(theme.muted.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 24))
     }
 }

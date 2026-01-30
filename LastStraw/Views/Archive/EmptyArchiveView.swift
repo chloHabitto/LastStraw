@@ -8,16 +8,15 @@ import SwiftUI
 struct EmptyArchiveView: View {
     @Environment(\.colorScheme) private var colorScheme
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
-    
+
     var body: some View {
         VStack(spacing: 24) {
             Circle()
                 .fill(theme.muted)
                 .frame(width: 80, height: 80)
                 .overlay(
-                    Image(systemName: "archivebox.fill")
-                        .font(.system(size: 36))
-                        .foregroundColor(theme.mutedForeground)
+                    Text("📦")
+                        .font(.system(size: 48))
                 )
             Text(AppCopy.emptyArchiveState)
                 .font(.body)
@@ -25,7 +24,7 @@ struct EmptyArchiveView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.vertical, 40)
     }
 }

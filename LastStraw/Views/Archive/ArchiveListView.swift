@@ -13,28 +13,53 @@ struct ArchiveListView: View {
         sort: \Person.archivedAt,
         order: .reverse
     ) private var archivedPeople: [Person]
-    
+
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
-                theme.background.ignoresSafeArea()
+                // Gradient background (background to bubble-glow)
+                LinearGradient(
+                    colors: [
+                        theme.background,
+                        theme.bubbleGlow.opacity(0.3)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+
                 if archivedPeople.isEmpty {
                     EmptyArchiveView()
                 } else {
-                    List {
-                        ForEach(archivedPeople) { person in
-                            NavigationLink(destination: ArchivedPersonDetailView(person: person)) {
-                                ArchivedPersonRowView(person: person)
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            // Header section
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Archived")
+                                    .font(.display(28, weight: .bold))
+                                    .foregroundColor(theme.foreground)
+                                Text("Relationships you've resolved or set aside")
+                                    .font(.subheadline)
+                                    .foregroundColor(theme.mutedForeground)
                             }
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 32)
+                            .padding(.bottom, 16)
+
+                            ForEach(Array(archivedPeople.enumerated()), id: \.element.id) { index, person in
+                                NavigationLink(destination: ArchivedPersonDetailView(person: person)) {
+                                    ArchivedPersonRowView(person: person)
+                                }
+                                .buttonStyle(.plain)
+                                .fadeIn(delay: Double(index) * 0.1)
+                            }
+                            .padding(.horizontal, 20)
                         }
+                        .padding(.bottom, 96)
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
                 }
             }
             .navigationTitle("Archive")

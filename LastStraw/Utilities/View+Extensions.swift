@@ -63,11 +63,29 @@ struct BubbleButtonStyle: ButtonStyle {
 
 // MARK: - Animations
 
+/// Staggered fade-in: opacity 0→1 and offset y 10→0 with optional delay (e.g. index * 0.1).
+struct FadeInModifier: ViewModifier {
+    let delay: Double
+    @State private var appeared = false
+
+    func body(content: Content) -> some View {
+        content
+            .opacity(appeared ? 1 : 0)
+            .offset(y: appeared ? 0 : 10)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    withAnimation(.easeOut(duration: 0.4)) {
+                        appeared = true
+                    }
+                }
+            }
+    }
+}
+
 extension View {
+    /// Fade in with optional delay for staggered list animations.
     func fadeIn(delay: Double = 0) -> some View {
-        self
-            .opacity(0)
-            .animation(.easeOut(duration: 0.4).delay(delay), value: true)
+        modifier(FadeInModifier(delay: delay))
     }
 }
 
