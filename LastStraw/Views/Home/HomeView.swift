@@ -33,8 +33,8 @@ struct HomeView: View {
                 if activePeople.isEmpty {
                     EmptyHomeView(onAddPerson: { showAddPerson = true })
                 } else {
-                    VStack(spacing: 0) {
-                        if !activePeople.isEmpty {
+                    ScrollView {
+                        VStack(spacing: 16) {
                             AppCard {
                                 HStack(spacing: 0) {
                                     VStack {
@@ -61,20 +61,25 @@ struct HomeView: View {
                             }
                             .padding(.horizontal, 16)
                             .padding(.bottom, 8)
-                        }
-                        List {
-                            ForEach(activePeople) { person in
-                                NavigationLink(destination: PersonDetailView(person: person)) {
-                                    PersonRowView(person: person)
+
+                            LazyVStack(spacing: 16) {
+                                ForEach(activePeople) { person in
+                                    NavigationLink(destination: PersonDetailView(person: person)) {
+                                        PersonRowView(person: person)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            deletePerson(person)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
                                 }
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                             }
-                            .onDelete(perform: deletePeople)
                         }
-                        .listStyle(.plain)
-                        .scrollContentBackground(.hidden)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
                     }
                 }
             }
@@ -95,10 +100,8 @@ struct HomeView: View {
         }
     }
     
-    private func deletePeople(at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(activePeople[index])
-        }
+    private func deletePerson(_ person: Person) {
+        modelContext.delete(person)
         try? modelContext.save()
     }
 }

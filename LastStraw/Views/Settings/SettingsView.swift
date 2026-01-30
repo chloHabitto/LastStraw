@@ -98,15 +98,17 @@ struct SettingsView: View {
     
     @ViewBuilder
     private func settingsCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        content()
-            .background(theme.card)
-            .clipShape(RoundedRectangle(cornerRadius: 32))
-            .overlay(
-                RoundedRectangle(cornerRadius: 32)
-                    .stroke(theme.border.opacity(0.5), lineWidth: 1)
-            )
-            .shadow(color: theme.primary.opacity(0.12), radius: 12, x: 0, y: 2)
-            .padding(.horizontal, 20)
+        VStack(spacing: 0) {
+            content()
+        }
+        .background(theme.card)
+        .clipShape(RoundedRectangle(cornerRadius: 32))
+        .overlay(
+            RoundedRectangle(cornerRadius: 32)
+                .stroke(theme.border.opacity(0.5), lineWidth: 1)
+        )
+        .shadow(color: theme.primary.opacity(0.12), radius: 12, x: 0, y: 2)
+        .padding(.horizontal, 20)
     }
 }
 
