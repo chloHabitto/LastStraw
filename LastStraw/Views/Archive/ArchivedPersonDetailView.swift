@@ -101,7 +101,12 @@ struct ArchivedPersonDetailView: View {
     private func unarchivePerson() {
         person.isArchived = false
         person.archivedAt = nil
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ Successfully unarchived person")
+        } catch {
+            print("❌ Failed to unarchive person: \(error)")
+        }
         dismiss()
     }
     

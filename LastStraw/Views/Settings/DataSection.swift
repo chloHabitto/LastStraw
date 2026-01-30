@@ -68,7 +68,12 @@ struct DataDetailView: View {
         for person in people {
             modelContext.delete(person)
         }
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ Successfully deleted all data")
+        } catch {
+            print("❌ Failed to delete all data: \(error)")
+        }
     }
 }
 

@@ -83,7 +83,12 @@ struct ArchiveFlowView: View {
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         person.isArchived = true
         person.archivedAt = Date()
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ Successfully archived person")
+        } catch {
+            print("❌ Failed to archive person: \(error)")
+        }
         showCompletion = true
     }
 }

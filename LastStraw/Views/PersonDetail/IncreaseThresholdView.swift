@@ -71,7 +71,12 @@ struct IncreaseThresholdView: View {
         }
         person.threshold = newThreshold
         person.thresholdState = .observing
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ Successfully updated threshold")
+        } catch {
+            print("❌ Failed to update threshold: \(error)")
+        }
         dismiss()
     }
 }

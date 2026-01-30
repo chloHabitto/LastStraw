@@ -93,7 +93,12 @@ struct LogStrawView: View {
         let straw = Straw(emotion: emotion, note: note.trimmingCharacters(in: .whitespaces))
         straw.person = person
         person.straws.append(straw)
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ Successfully saved straw")
+        } catch {
+            print("❌ Failed to save straw: \(error)")
+        }
         showConfirmation = true
     }
 }

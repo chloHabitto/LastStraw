@@ -155,11 +155,21 @@ struct ThresholdReachedSheet: View {
             ext.person = person
             person.thresholdExtensions.append(ext)
             person.threshold += extensionAmount
-            try? modelContext.save()
+            do {
+                try modelContext.save()
+                print("✅ Successfully extended threshold")
+            } catch {
+                print("❌ Failed to extend threshold: \(error)")
+            }
             dismiss()
         case .observe:
             person.thresholdState = .observing
-            try? modelContext.save()
+            do {
+                try modelContext.save()
+                print("✅ Successfully set observing state")
+            } catch {
+                print("❌ Failed to set observing state: \(error)")
+            }
             dismiss()
         case nil:
             break

@@ -59,7 +59,6 @@ struct HomeView: View {
                                     .frame(maxWidth: .infinity)
                                 }
                             }
-                            .padding(.horizontal, 16)
                             .padding(.bottom, 8)
 
                             LazyVStack(spacing: 16) {
@@ -102,6 +101,11 @@ struct HomeView: View {
     
     private func deletePerson(_ person: Person) {
         modelContext.delete(person)
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ Successfully deleted person")
+        } catch {
+            print("❌ Failed to delete person: \(error)")
+        }
     }
 }

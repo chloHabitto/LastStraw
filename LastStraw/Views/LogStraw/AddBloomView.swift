@@ -72,7 +72,12 @@ struct AddBloomView: View {
         let bloom = Bloom(feeling: feeling, note: note.trimmingCharacters(in: .whitespaces))
         bloom.person = person
         person.blooms.append(bloom)
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ Successfully saved bloom")
+        } catch {
+            print("❌ Failed to save bloom: \(error)")
+        }
         showConfirmation = true
     }
 }

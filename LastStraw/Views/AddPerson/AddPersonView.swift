@@ -139,7 +139,12 @@ struct AddPersonView: View {
         let colorIndex = Int.random(in: 0..<Theme.personColors.count)
         let person = Person(name: trimmedName, relationship: rel, threshold: threshold, colorIndex: colorIndex)
         modelContext.insert(person)
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("✅ Successfully saved person: \(trimmedName)")
+        } catch {
+            print("❌ Failed to save person: \(error)")
+        }
         dismiss()
     }
 }
