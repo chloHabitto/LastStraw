@@ -30,39 +30,41 @@ struct ArchiveListView: View {
                 )
                 .ignoresSafeArea()
 
-                if archivedPeople.isEmpty {
-                    EmptyArchiveView()
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 16) {
-                            // Header section
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Archived")
-                                    .font(.display(28, weight: .bold))
-                                    .foregroundColor(theme.foreground)
-                                Text("Relationships you've resolved or set aside")
-                                    .font(.subheadline)
-                                    .foregroundColor(theme.mutedForeground)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 20)
-                            .padding(.top, 32)
-                            .padding(.bottom, 16)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        // Custom header (same style as Settings)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Archived")
+                                .font(.display(28, weight: .bold))
+                                .foregroundColor(theme.foreground)
+                            Text(AppCopy.archiveSubtitle)
+                                .font(.system(size: 15))
+                                .foregroundColor(theme.mutedForeground)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
 
-                            ForEach(Array(archivedPeople.enumerated()), id: \.element.id) { index, person in
-                                NavigationLink(destination: ArchivedPersonDetailView(person: person)) {
-                                    ArchivedPersonRowView(person: person)
+                        // Content
+                        if archivedPeople.isEmpty {
+                            EmptyArchiveView()
+                        } else {
+                            LazyVStack(spacing: 16) {
+                                ForEach(Array(archivedPeople.enumerated()), id: \.element.id) { index, person in
+                                    NavigationLink(destination: ArchivedPersonDetailView(person: person)) {
+                                        ArchivedPersonRowView(person: person)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .fadeIn(delay: Double(index) * 0.1)
                                 }
-                                .buttonStyle(.plain)
-                                .fadeIn(delay: Double(index) * 0.1)
                             }
                             .padding(.horizontal, 20)
                         }
-                        .padding(.bottom, 96)
                     }
+                    .padding(.bottom, 96)
                 }
             }
-            .navigationTitle("Archive")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

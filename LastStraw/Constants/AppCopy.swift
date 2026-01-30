@@ -11,6 +11,7 @@ enum AppCopy {
     static let emptyHomeState = "No one here yet. Maybe that's lucky. Maybe you're just not ready. Either way, we're here."
     static let emptyHomeTagline = "A place to believe yourself, until you're ready to decide."
     static let emptyArchiveState = "Nothing archived yet. That's okay—take your time."
+    static let archiveSubtitle = "Relationships you've resolved or set aside"
     static let afterLoggingStraw = "Got it. Your feelings are noted—by you, for you."
     static let thresholdReachedTitle = "You've seen what you said you needed to see."
     static let thresholdReachedSubtitle = "No rush. Just notice how you feel."
