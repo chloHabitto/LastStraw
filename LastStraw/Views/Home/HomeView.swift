@@ -21,6 +21,10 @@ struct HomeView: View {
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     private var accent: Color { settings.accentColor.color }
     
+    private var totalStraws: Int {
+        activePeople.reduce(0) { $0 + $1.strawCount }
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -29,19 +33,49 @@ struct HomeView: View {
                 if activePeople.isEmpty {
                     EmptyHomeView(onAddPerson: { showAddPerson = true })
                 } else {
-                    List {
-                        ForEach(activePeople) { person in
-                            NavigationLink(destination: PersonDetailView(person: person)) {
-                                PersonRowView(person: person)
+                    VStack(spacing: 0) {
+                        if !activePeople.isEmpty {
+                            AppCard {
+                                HStack(spacing: 0) {
+                                    VStack {
+                                        Text("\(activePeople.count)")
+                                            .font(.display(24, weight: .bold))
+                                            .foregroundColor(accent)
+                                        Text("People")
+                                            .font(.caption)
+                                            .foregroundColor(theme.mutedForeground)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    Divider()
+                                        .frame(height: 40)
+                                    VStack {
+                                        Text("\(totalStraws)")
+                                            .font(.display(24, weight: .bold))
+                                            .foregroundColor(accent)
+                                        Text("Moments logged")
+                                            .font(.caption)
+                                            .foregroundColor(theme.mutedForeground)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                }
                             }
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 8)
                         }
-                        .onDelete(perform: deletePeople)
+                        List {
+                            ForEach(activePeople) { person in
+                                NavigationLink(destination: PersonDetailView(person: person)) {
+                                    PersonRowView(person: person)
+                                }
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                            }
+                            .onDelete(perform: deletePeople)
+                        }
+                        .listStyle(.plain)
+                        .scrollContentBackground(.hidden)
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
                 }
             }
             .navigationTitle("Last Straw")

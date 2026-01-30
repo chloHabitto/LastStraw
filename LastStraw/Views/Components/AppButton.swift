@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AppButton: View {
+    @Environment(\.colorScheme) private var colorScheme
+    
     let title: String
     let action: () -> Void
     var style: ButtonStyle = .primary
@@ -18,19 +20,21 @@ struct AppButton: View {
         case secondary
     }
     
+    private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    
     var body: some View {
         Button(action: action) {
             Text(title)
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(style == .primary ? .white : .appPrimary)
+                .foregroundColor(style == .primary ? theme.primaryForeground : theme.primary)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
                 .background(
-                    style == .primary ? Color.appPrimary : Color.clear
+                    style == .primary ? theme.primary : Color.clear
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(style == .primary ? Color.clear : Color.appPrimary, lineWidth: 2)
+                        .stroke(style == .primary ? Color.clear : theme.primary, lineWidth: 2)
                 )
                 .cornerRadius(12)
         }

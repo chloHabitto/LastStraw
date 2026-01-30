@@ -7,10 +7,14 @@ import SwiftUI
 import SwiftData
 
 struct ArchivedPersonDetailView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var settings: AppSettings
     let person: Person
     
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    private var accent: Color { settings.accentColor.color }
     
     private var timelineItems: [ArchivedTimelineItem] {
         let straws = person.straws.map { ArchivedTimelineItem.straw($0) }
@@ -84,6 +88,21 @@ struct ArchivedPersonDetailView: View {
         }
         .navigationTitle(person.name)
         .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: unarchivePerson) {
+                    Label("Restore", systemImage: "arrow.uturn.backward")
+                }
+                .foregroundColor(accent)
+            }
+        }
+    }
+    
+    private func unarchivePerson() {
+        person.isArchived = false
+        person.archivedAt = nil
+        try? modelContext.save()
+        dismiss()
     }
     
     private enum ArchivedTimelineItem: Identifiable {

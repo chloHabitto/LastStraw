@@ -29,12 +29,16 @@ struct LogStrawView: View {
                     Section {
                         EmotionPicker(selection: $emotion)
                     } header: {
-                        Text("How did you feel?")
+                        Text("How did it make you feel?")
                             .foregroundColor(theme.foreground)
+                    } footer: {
+                        Text("Your feelings are valid. Take a moment to name them.")
+                            .font(.footnote)
+                            .foregroundColor(theme.mutedForeground)
                     }
                     Section {
                         VStack(alignment: .leading, spacing: 8) {
-                            TextField("What happened? (optional)", text: $note, axis: .vertical)
+                            TextField("Just for you — a few words to remember this moment...", text: $note, axis: .vertical)
                                 .lineLimit(3...8)
                                 .font(.body)
                             HStack {
@@ -52,23 +56,26 @@ struct LogStrawView: View {
                             .font(.footnote)
                             .foregroundColor(theme.mutedForeground)
                     }
+                    Section {
+                        Button(action: saveStraw) {
+                            Text("Log this moment")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(BubbleButtonStyle())
+                        .disabled(emotion == nil || note.count > maxCharacters)
+                        .padding()
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
                 }
                 .scrollContentBackground(.hidden)
             }
-            .navigationTitle("Log a Moment")
+            .navigationTitle("What happened with \(person.name)?")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") { dismiss() }
                         .foregroundColor(theme.foreground)
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        saveStraw()
-                    }
-                    .foregroundColor(accent)
-                    .fontWeight(.semibold)
-                    .disabled(emotion == nil || note.count > maxCharacters)
                 }
             }
             .alert("Saved", isPresented: $showConfirmation) {

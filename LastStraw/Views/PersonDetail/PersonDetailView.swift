@@ -16,7 +16,7 @@ struct PersonDetailView: View {
     @State private var showLogStraw = false
     @State private var showAddBloom = false
     @State private var showArchiveFlow = false
-    @State private var showThresholdOptions = false
+    @State private var showThresholdReachedSheet = false
     
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     private var accent: Color { settings.accentColor.color }
@@ -51,11 +51,22 @@ struct PersonDetailView: View {
                             }
                             ProgressIndicatorView(person: person)
                             if person.hasReachedThreshold {
-                                ThresholdReachedBanner(
-                                    onSitWithIt: { },
-                                    onMakeDecision: { showArchiveFlow = true },
-                                    onKeepObserving: { showThresholdOptions = true }
-                                )
+                                Button(action: { showThresholdReachedSheet = true }) {
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        Text("You've reached your threshold")
+                                            .font(.display(18, weight: .semibold))
+                                            .foregroundColor(theme.foreground)
+                                        Text("Take a moment. Tap to choose what to do next.")
+                                            .font(.subheadline)
+                                            .foregroundColor(theme.mutedForeground)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding()
+                                    .background(theme.secondary.opacity(0.2))
+                                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.top, 8)
                             }
                         }
                     }
@@ -121,8 +132,8 @@ struct PersonDetailView: View {
         .sheet(isPresented: $showArchiveFlow) {
             ArchiveFlowView(person: person)
         }
-        .sheet(isPresented: $showThresholdOptions) {
-            IncreaseThresholdView(person: person)
+        .sheet(isPresented: $showThresholdReachedSheet) {
+            ThresholdReachedSheet(person: person, onArchive: { showArchiveFlow = true })
         }
     }
     
