@@ -6,15 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		8927AB5D2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8927AB5B2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png */; };
-		8927AB5E2F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8927AB5A2F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png */; };
-		8927AB5F2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8927AB5B2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png */; };
-		8927AB602F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8927AB5A2F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png */; };
-		8927AB612F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8927AB5B2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png */; };
-		8927AB622F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8927AB5A2F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		89EF8EC02F168A3800D177F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -33,9 +24,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "LastStraw-AppIcon.icon"; sourceTree = "<group>"; };
-		8927AB5A2F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LastStraw-AppIcon-iOS-Default-1024x1024@1x.png"; sourceTree = "<group>"; };
-		8927AB5B2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png"; sourceTree = "<group>"; };
 		89EF8EB22F168A3600D177F7 /* LastStraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LastStraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89EF8EBF2F168A3800D177F7 /* LastStrawTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastStrawTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		89EF8EC92F168A3800D177F7 /* LastStrawUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastStrawUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,20 +37,6 @@
 			);
 			target = 89EF8EB12F168A3600D177F7 /* LastStraw */;
 		};
-		898D1C162F2D37D60005E4A6 /* Exceptions for "LastStraw" folder in "LastStrawTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				AppIcon.icon,
-			);
-			target = 89EF8EBE2F168A3800D177F7 /* LastStrawTests */;
-		};
-		898D1C172F2D37D60005E4A6 /* Exceptions for "LastStraw" folder in "LastStrawUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				AppIcon.icon,
-			);
-			target = 89EF8EC82F168A3800D177F7 /* LastStrawUITests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,8 +44,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				894F9C032F2D24B80094974E /* Exceptions for "LastStraw" folder in "LastStraw" target */,
-				898D1C162F2D37D60005E4A6 /* Exceptions for "LastStraw" folder in "LastStrawTests" target */,
-				898D1C172F2D37D60005E4A6 /* Exceptions for "LastStraw" folder in "LastStrawUITests" target */,
 			);
 			path = LastStraw;
 			sourceTree = "<group>";
@@ -113,15 +85,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8927AB5C2F16A39200DE7215 /* LastStraw-AppIcon Exports */ = {
-			isa = PBXGroup;
-			children = (
-				8927AB5A2F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png */,
-				8927AB5B2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png */,
-			);
-			path = "LastStraw-AppIcon Exports";
-			sourceTree = "<group>";
-		};
 		89EF8EA92F168A3600D177F7 = {
 			isa = PBXGroup;
 			children = (
@@ -129,8 +92,6 @@
 				89EF8EC22F168A3800D177F7 /* LastStrawTests */,
 				89EF8ECC2F168A3800D177F7 /* LastStrawUITests */,
 				89EF8EB32F168A3600D177F7 /* Products */,
-				8927A6062F169DBB00DE7215 /* LastStraw-AppIcon.icon */,
-				8927AB5C2F16A39200DE7215 /* LastStraw-AppIcon Exports */,
 			);
 			sourceTree = "<group>";
 		};
@@ -264,8 +225,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8927AB5F2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png in Resources */,
-				8927AB602F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,8 +232,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8927AB612F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png in Resources */,
-				8927AB622F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,8 +239,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8927AB5D2F16A39200DE7215 /* LastStraw-AppIcon-watchOS-Default-1088x1088@1x.png in Resources */,
-				8927AB5E2F16A39200DE7215 /* LastStraw-AppIcon-iOS-Default-1024x1024@1x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
