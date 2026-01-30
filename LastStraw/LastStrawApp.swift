@@ -19,14 +19,6 @@ struct LastStrawApp: App {
             Bloom.self,
             ThresholdExtension.self
         ])
-        let storeURL = URL.applicationSupportDirectory.appending(path: "default.store")
-
-        // One-time store reset to clear schema migration issues. Remove after testing.
-        let fileManager = FileManager.default
-        for suffix in ["", "-shm", "-wal"] {
-            let path = storeURL.path + suffix
-            try? fileManager.removeItem(atPath: path)
-        }
 
         let modelConfiguration = ModelConfiguration(
             schema: schema,
@@ -35,21 +27,21 @@ struct LastStrawApp: App {
 
         do {
             let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
-            let storePath = container.configurations.first?.url.path ?? storeURL.path
+            let storePath = container.configurations.first?.url.path ?? "(default store)"
             print("📂 SwiftData store path: \(storePath)")
             return container
         } catch {
             print("Failed to create ModelContainer: \(error)")
             print("Attempting to delete corrupt store and recreate...")
-
+            let storeURL = URL.applicationSupportDirectory.appending(path: "default.store")
+            let fileManager = FileManager.default
             for suffix in ["", "-shm", "-wal"] {
                 let path = storeURL.path + suffix
                 try? fileManager.removeItem(atPath: path)
             }
-
             do {
                 let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
-                let storePath = container.configurations.first?.url.path ?? storeURL.path
+                let storePath = container.configurations.first?.url.path ?? "(default store)"
                 print("📂 SwiftData store path: \(storePath)")
                 return container
             } catch {
