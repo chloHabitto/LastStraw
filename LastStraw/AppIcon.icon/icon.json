@@ -1,0 +1,156 @@
+{
+  "fill" : {
+    "solid" : "display-p3:0.94748,0.92242,0.97950,1.00000"
+  },
+  "groups" : [
+    {
+      "blur-material" : 1,
+      "hidden" : false,
+      "layers" : [
+        {
+          "image-name" : "starwhite.svg",
+          "name" : "starwhite",
+          "position" : {
+            "scale" : 1.86,
+            "translation-in-points" : [
+              10.614940482642794,
+              -28.809549600000082
+            ]
+          }
+        },
+        {
+          "hidden" : true,
+          "image-name" : "starblack.svg",
+          "name" : "starblack",
+          "position" : {
+            "scale" : 1.86,
+            "translation-in-points" : [
+              9.261861062337516,
+              -28.809549600000082
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "image-name" : "LastStraw-withoutstar2.svg",
+          "name" : "LastStraw-withoutstar2",
+          "position" : {
+            "scale" : 1.82,
+            "translation-in-points" : [
+              -3.2874415443960743,
+              100.35784176690129
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "LastStraw-withoutstar.svg",
+          "name" : "LastStraw-withoutstar",
+          "position" : {
+            "scale" : 1.82,
+            "translation-in-points" : [
+              -3.2874415443960743,
+              106.20571403380268
+            ]
+          }
+        },
+        {
+          "hidden" : true,
+          "image-name" : "Group 1.svg",
+          "name" : "Group 1",
+          "position" : {
+            "scale" : 2.03,
+            "translation-in-points" : [
+              138.328125,
+              14.814969499999961
+            ]
+          }
+        },
+        {
+          "hidden" : true,
+          "image-name" : "straw+drink.svg",
+          "name" : "straw+drink",
+          "position" : {
+            "scale" : 1.94,
+            "translation-in-points" : [
+              83.890625,
+              127.46261098233435
+            ]
+          }
+        },
+        {
+          "hidden" : true,
+          "image-name" : "without straw 3.svg",
+          "name" : "without straw 3",
+          "position" : {
+            "scale" : 1.94,
+            "translation-in-points" : [
+              -3.611907720676527,
+              26.091999999999643
+            ]
+          }
+        },
+        {
+          "hidden" : true,
+          "image-name" : "without straw 2.svg",
+          "name" : "without straw 2",
+          "position" : {
+            "scale" : 1.94,
+            "translation-in-points" : [
+              -3.611907720676527,
+              26.09199999999987
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "LastStraw-AppIcon02 2.svg",
+          "name" : "LastStraw-AppIcon02 2",
+          "position" : {
+            "scale" : 1.84,
+            "translation-in-points" : [
+              -3.227662218476894,
+              112.421875
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "LastStraw-AppIcon02.svg",
+          "name" : "LastStraw-AppIcon02",
+          "position" : {
+            "scale" : 1.83,
+            "translation-in-points" : [
+              -7.031692690253067,
+              16.4140625
+            ]
+          }
+        },
+        {
+          "hidden" : true,
+          "image-name" : "without straw.svg",
+          "name" : "without straw"
+        }
+      ],
+      "lighting" : "individual",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 1
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.01
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
