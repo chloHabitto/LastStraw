@@ -6,6 +6,7 @@
 import SwiftUI
 
 enum SettingsRoute: Hashable {
+    case profile
     case appearance
     case notifications
     case privacy
@@ -30,7 +31,7 @@ struct SettingsView: View {
                         // Custom header (not navigationTitle)
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Settings")
-                                .font(.system(size: 34, weight: .bold))
+                                .font(.display(28, weight: .bold))
                                 .foregroundColor(theme.foreground)
                             Text(AppCopy.settingsSubtitle)
                                 .font(.system(size: 15))
@@ -40,31 +41,37 @@ struct SettingsView: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
                         
-                        // Group: Appearance, Notifications, Privacy
+                        // Group 1: Profile (standalone)
                         settingsCard {
-                            SettingsMenuItem(icon: "paintbrush.fill", label: "Appearance", description: "Theme and accent color", isLast: false) { path.append(SettingsRoute.appearance) }
-                            SettingsMenuItem(icon: "bell.fill", label: "Notifications", description: "Reminders and tone", isLast: false) { path.append(SettingsRoute.notifications) }
-                            SettingsMenuItem(icon: "lock.fill", label: "Privacy & Security", description: "Passcode and stealth", isLast: true) { path.append(SettingsRoute.privacy) }
+                            SettingsMenuItem(icon: "person.fill", label: "Profile", description: "Your personal info", isLast: true) { path.append(SettingsRoute.profile) }
                         }
                         
-                        // Group: Defaults, Data
+                        // Group 2: Main Settings (3 items)
                         settingsCard {
-                            SettingsMenuItem(icon: "slider.horizontal.3", label: "Defaults", description: "Threshold and emotions", isLast: false) { path.append(SettingsRoute.defaults) }
-                            SettingsMenuItem(icon: "externaldrive.fill", label: "Your data", description: "Export or delete", isLast: true) { path.append(SettingsRoute.data) }
+                            SettingsMenuItem(icon: "paintbrush.fill", label: "Appearance", description: "Theme, colors", isLast: false) { path.append(SettingsRoute.appearance) }
+                            SettingsMenuItem(icon: "bell.fill", label: "Notifications", description: "Reminders & check-ins", isLast: false) { path.append(SettingsRoute.notifications) }
+                            SettingsMenuItem(icon: "lock.fill", label: "Privacy & Security", description: "Lock, hide, protect", isLast: true) { path.append(SettingsRoute.privacy) }
                         }
                         
-                        // Group: About
+                        // Group 3: Customization (2 items)
                         settingsCard {
-                            SettingsMenuItem(icon: "info.circle.fill", label: "About", description: "Version and feedback", isLast: true) { path.append(SettingsRoute.about) }
+                            SettingsMenuItem(icon: "slider.horizontal.3", label: "Defaults", description: "Threshold, emotions", isLast: false) { path.append(SettingsRoute.defaults) }
+                            SettingsMenuItem(icon: "externaldrive.fill", label: "Your Data", description: "Export, delete", isLast: true) { path.append(SettingsRoute.data) }
+                        }
+                        
+                        // Group 4: About (standalone)
+                        settingsCard {
+                            SettingsMenuItem(icon: "info.circle.fill", label: "About", description: "Version, legal, feedback", isLast: true) { path.append(SettingsRoute.about) }
                         }
                         
                         // Footer: Heart icon + mission tagline
                         VStack(spacing: 8) {
                             Image(systemName: "heart.fill")
-                                .font(.system(size: 24))
+                                .font(.system(size: 20))
                                 .foregroundColor(theme.primary.opacity(0.4))
-                            Text(AppCopy.settingsMissionTagline)
-                                .font(.system(size: 13))
+                            Text("\u{201C}A place to believe yourself,\nuntil you're ready to decide.\u{201D}")
+                                .font(.system(size: 14, weight: .regular, design: .rounded))
+                                .italic()
                                 .foregroundColor(theme.mutedForeground)
                                 .multilineTextAlignment(.center)
                         }
@@ -77,6 +84,7 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: SettingsRoute.self) { route in
                 switch route {
+                case .profile: ProfileDetailView()
                 case .appearance: AppearanceDetailView()
                 case .notifications: NotificationsDetailView()
                 case .privacy: PrivacyDetailView()

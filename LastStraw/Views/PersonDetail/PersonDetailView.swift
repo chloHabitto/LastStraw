@@ -125,15 +125,19 @@ struct PersonDetailView: View {
         }
         .sheet(isPresented: $showLogStraw) {
             LogStrawView(person: person)
+                .environmentObject(settings)
         }
         .sheet(isPresented: $showAddBloom) {
             AddBloomView(person: person)
+                .environmentObject(settings)
         }
         .sheet(isPresented: $showArchiveFlow) {
             ArchiveFlowView(person: person)
+                .environmentObject(settings)
         }
         .sheet(isPresented: $showThresholdReachedSheet) {
             ThresholdReachedSheet(person: person, onArchive: { showArchiveFlow = true })
+                .environmentObject(settings)
         }
     }
     
