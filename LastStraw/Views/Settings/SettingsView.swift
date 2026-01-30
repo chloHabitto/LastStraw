@@ -42,7 +42,7 @@ struct SettingsView: View {
                         .padding(.top, 8)
                         
                         // Group 1: Profile (standalone)
-                        settingsCard {
+                        settingsCard(cornerRadius: 20) {
                             SettingsMenuItem(icon: "person.fill", label: "Profile", description: "Your personal info", isLast: true) { path.append(SettingsRoute.profile) }
                         }
                         
@@ -60,7 +60,7 @@ struct SettingsView: View {
                         }
                         
                         // Group 4: About (standalone)
-                        settingsCard {
+                        settingsCard(cornerRadius: 20) {
                             SettingsMenuItem(icon: "info.circle.fill", label: "About", description: "Version, legal, feedback", isLast: true) { path.append(SettingsRoute.about) }
                         }
                         
@@ -97,14 +97,14 @@ struct SettingsView: View {
     }
     
     @ViewBuilder
-    private func settingsCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+    private func settingsCard<Content: View>(cornerRadius: CGFloat = 24, @ViewBuilder content: () -> Content) -> some View {
         VStack(spacing: 0) {
             content()
         }
         .background(theme.card)
-        .clipShape(RoundedRectangle(cornerRadius: 32))
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         .overlay(
-            RoundedRectangle(cornerRadius: 32)
+            RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(theme.border.opacity(0.5), lineWidth: 1)
         )
         .shadow(color: theme.primary.opacity(0.12), radius: 12, x: 0, y: 2)

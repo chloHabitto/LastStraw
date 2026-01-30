@@ -30,9 +30,9 @@ struct SettingsSection<Content: View>: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(theme.card)
-                .clipShape(RoundedRectangle(cornerRadius: 32))
+                .clipShape(RoundedRectangle(cornerRadius: 24))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 32)
+                    RoundedRectangle(cornerRadius: 24)
                         .stroke(theme.border.opacity(0.5), lineWidth: 1)
                 )
                 .shadow(color: theme.primary.opacity(0.12), radius: 12, x: 0, y: 2)

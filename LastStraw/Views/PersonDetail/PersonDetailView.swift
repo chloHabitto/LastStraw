@@ -75,19 +75,22 @@ struct PersonDetailView: View {
                     
                     // Timeline
                     if timelineItems.isEmpty {
-                        VStack(spacing: 12) {
+                        VStack(spacing: 8) {
                             Image(systemName: "leaf.fill")
                                 .font(.system(size: 40))
                                 .foregroundColor(theme.mutedForeground.opacity(0.6))
                             Text("No moments logged yet")
                                 .font(.body)
                                 .foregroundColor(theme.mutedForeground)
+                            Text("When something happens, you can record it here.")
+                                .font(.footnote)
+                                .foregroundColor(theme.mutedForeground.opacity(0.7))
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 40)
                     } else {
                         LazyVStack(alignment: .leading, spacing: 12) {
-                            Text("Timeline")
+                            Text("Your moments")
                                 .font(.display(18, weight: .semibold))
                                 .foregroundColor(theme.foreground)
                                 .padding(.horizontal, 20)
@@ -98,7 +101,41 @@ struct PersonDetailView: View {
                         .padding(.horizontal, 20)
                     }
                 }
-                .padding(.bottom, 100)
+                .padding(.bottom, 120)
+            }
+        }
+        .overlay(alignment: .bottom) {
+            if !person.isArchived {
+                HStack(spacing: 12) {
+                    Button(action: { showAddBloom = true }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "leaf.fill")
+                            Text("Add a bloom")
+                        }
+                        .font(.display(14, weight: .medium))
+                        .foregroundColor(theme.foreground)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 14)
+                    }
+                    .background(.ultraThinMaterial)
+                    .clipShape(Capsule())
+                    .overlay(Capsule().stroke(accent.opacity(0.3), lineWidth: 1))
+
+                    Button(action: { showLogStraw = true }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "plus")
+                            Text("Log a straw")
+                        }
+                        .font(.display(14, weight: .medium))
+                        .foregroundColor(theme.primaryForeground)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 14)
+                    }
+                    .background(accent)
+                    .clipShape(Capsule())
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 24)
             }
         }
         .navigationTitle(person.name)
