@@ -22,7 +22,8 @@ struct LastStrawApp: App {
 
         let modelConfiguration = ModelConfiguration(
             schema: schema,
-            isStoredInMemoryOnly: false
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: .private("iCloud.com.chloe-lee.LastStraw")
         )
 
         do {

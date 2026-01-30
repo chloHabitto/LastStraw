@@ -51,7 +51,7 @@ struct AddPersonView: View {
                         thresholdField
                         actions
                     }
-                    .padding(24)
+                    .padding(20)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

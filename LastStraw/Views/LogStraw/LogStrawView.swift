@@ -92,7 +92,8 @@ struct LogStrawView: View {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         let straw = Straw(emotion: emotion, note: note.trimmingCharacters(in: .whitespaces))
         straw.person = person
-        person.straws.append(straw)
+        if person.straws == nil { person.straws = [] }
+        person.straws?.append(straw)
         do {
             try modelContext.save()
             print("✅ Successfully saved straw")

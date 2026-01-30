@@ -67,7 +67,8 @@ struct IncreaseThresholdView: View {
         if amount > 0 {
             let ext = ThresholdExtension(amount: amount, previousThreshold: person.threshold)
             ext.person = person
-            person.thresholdExtensions.append(ext)
+            if person.thresholdExtensions == nil { person.thresholdExtensions = [] }
+            person.thresholdExtensions?.append(ext)
         }
         person.threshold = newThreshold
         person.thresholdState = .observing

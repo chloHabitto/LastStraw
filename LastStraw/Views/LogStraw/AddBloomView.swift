@@ -71,7 +71,8 @@ struct AddBloomView: View {
     private func saveBloom() {
         let bloom = Bloom(feeling: feeling, note: note.trimmingCharacters(in: .whitespaces))
         bloom.person = person
-        person.blooms.append(bloom)
+        if person.blooms == nil { person.blooms = [] }
+        person.blooms?.append(bloom)
         do {
             try modelContext.save()
             print("✅ Successfully saved bloom")

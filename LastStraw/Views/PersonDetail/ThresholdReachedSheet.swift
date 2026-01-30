@@ -108,7 +108,7 @@ struct ThresholdReachedSheet: View {
                                 action: { selectedOption = .observe }
                             )
                         }
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 20)
                         
                         // Action Button
                         Button(action: handleAction) {
@@ -118,7 +118,7 @@ struct ThresholdReachedSheet: View {
                         .buttonStyle(BubbleButtonStyle())
                         .disabled(selectedOption == nil)
                         .opacity(selectedOption == nil ? 0.5 : 1)
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 20)
                         .padding(.bottom, 20)
                     }
                 }
@@ -153,7 +153,8 @@ struct ThresholdReachedSheet: View {
         case .extend:
             let ext = ThresholdExtension(amount: extensionAmount, previousThreshold: person.threshold)
             ext.person = person
-            person.thresholdExtensions.append(ext)
+            if person.thresholdExtensions == nil { person.thresholdExtensions = [] }
+            person.thresholdExtensions?.append(ext)
             person.threshold += extensionAmount
             do {
                 try modelContext.save()

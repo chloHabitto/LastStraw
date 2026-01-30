@@ -9,28 +9,28 @@ import SwiftUI
 
 @Model
 final class Person {
-    var id: UUID
-    var name: String
-    var relationship: String
-    var threshold: Int
-    var createdAt: Date
-    var isArchived: Bool
+    var id: UUID = UUID()
+    var name: String = ""
+    var relationship: String = ""
+    var threshold: Int = 5
+    var createdAt: Date = Date()
+    var isArchived: Bool = false
     var archivedAt: Date?
     /// Optional for migration: existing records created before this field have nil; use safeColorIndex for display.
     var colorIndex: Int?
-    var thresholdState: ThresholdState
+    var thresholdState: ThresholdState = ThresholdState.normal
 
     var safeColorIndex: Int { colorIndex ?? 0 }
-    
+
     @Relationship(deleteRule: .cascade, inverse: \Straw.person)
-    var straws: [Straw]
-    
+    var straws: [Straw]? = []
+
     @Relationship(deleteRule: .cascade, inverse: \Bloom.person)
-    var blooms: [Bloom]
-    
+    var blooms: [Bloom]? = []
+
     @Relationship(deleteRule: .cascade, inverse: \ThresholdExtension.person)
-    var thresholdExtensions: [ThresholdExtension]
-    
+    var thresholdExtensions: [ThresholdExtension]? = []
+
     init(name: String, relationship: String, threshold: Int, colorIndex: Int = 0) {
         self.id = UUID()
         self.name = name
@@ -45,19 +45,19 @@ final class Person {
         self.blooms = []
         self.thresholdExtensions = []
     }
-    
+
     var color: Color {
         Theme.personColors[safeColorIndex % Theme.personColors.count]
     }
-    
+
     var initial: String {
         String(name.prefix(1)).uppercased()
     }
-    
-    var strawCount: Int { straws.count }
-    
+
+    var strawCount: Int { straws?.count ?? 0 }
+
     var hasReachedThreshold: Bool { strawCount >= threshold }
-    
+
     var progress: Double {
         guard threshold > 0 else { return 0 }
         return min(Double(strawCount) / Double(threshold), 1.0)

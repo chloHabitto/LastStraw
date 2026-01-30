@@ -34,11 +34,11 @@ struct PersonRowView: View {
                             .foregroundColor(theme.mutedForeground)
                     }
                     Spacer()
-                    if !person.blooms.isEmpty {
+                    if !(person.blooms ?? []).isEmpty {
                         HStack(spacing: 4) {
                             Text("🌸")
                                 .font(.caption)
-                            Text("\(person.blooms.count)")
+                            Text("\((person.blooms ?? []).count)")
                                 .font(.caption)
                                 .foregroundColor(theme.mutedForeground)
                         }

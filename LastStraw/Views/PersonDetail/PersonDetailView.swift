@@ -70,7 +70,7 @@ struct PersonDetailView: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 20)
                     .padding(.top, 8)
                     
                     // Timeline
@@ -90,12 +90,12 @@ struct PersonDetailView: View {
                             Text("Timeline")
                                 .font(.display(18, weight: .semibold))
                                 .foregroundColor(theme.foreground)
-                                .padding(.horizontal, 16)
+                                .padding(.horizontal, 20)
                             ForEach(timelineItems) { item in
                                 timelineRow(for: item)
                             }
                         }
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 20)
                     }
                 }
                 .padding(.bottom, 100)
@@ -162,9 +162,9 @@ struct PersonDetailView: View {
     }
     
     private var timelineItems: [TimelineItem] {
-        let straws: [TimelineItem] = person.straws.map { .straw($0) }
-        let blooms: [TimelineItem] = person.blooms.map { .bloom($0) }
-        let exts: [TimelineItem] = person.thresholdExtensions.map { .extensionItem($0) }
+        let straws: [TimelineItem] = (person.straws ?? []).map { .straw($0) }
+        let blooms: [TimelineItem] = (person.blooms ?? []).map { .bloom($0) }
+        let exts: [TimelineItem] = (person.thresholdExtensions ?? []).map { .extensionItem($0) }
         return (straws + blooms + exts).sorted { $0.date > $1.date }
     }
     

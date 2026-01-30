@@ -29,9 +29,7 @@ struct DataDetailView: View {
                             }
                             .buttonStyle(.plain)
                             rowDivider
-                            SettingsRow(icon: "icloud.fill", label: "iCloud Sync", description: "Coming soon", trailing: { Text("Soon").font(.caption).foregroundColor(theme.mutedForeground) })
-                                .opacity(0.7)
-                                .allowsHitTesting(false)
+                            SettingsRow(icon: "icloud.fill", label: "iCloud Sync", description: "Enabled", trailing: { EmptyView() })
                             rowDivider
                             Button {
                                 showDeleteConfirmation = true
@@ -133,7 +131,7 @@ struct ExportDataView: View {
                     "archivedAt": person.archivedAt.map { formatter.string(from: $0) } as Any,
                     "colorIndex": person.safeColorIndex,
                     "thresholdState": person.thresholdState.rawValue,
-                    "straws": person.straws.map { straw in
+                    "straws": (person.straws ?? []).map { straw in
                         [
                             "id": straw.id.uuidString,
                             "emotion": straw.emotion.rawValue,
@@ -141,7 +139,7 @@ struct ExportDataView: View {
                             "date": formatter.string(from: straw.date)
                         ] as [String: Any]
                     },
-                    "blooms": person.blooms.map { bloom in
+                    "blooms": (person.blooms ?? []).map { bloom in
                         [
                             "id": bloom.id.uuidString,
                             "feeling": bloom.feeling.rawValue,
@@ -149,7 +147,7 @@ struct ExportDataView: View {
                             "date": formatter.string(from: bloom.date)
                         ] as [String: Any]
                     },
-                    "thresholdExtensions": person.thresholdExtensions.map { ext in
+                    "thresholdExtensions": (person.thresholdExtensions ?? []).map { ext in
                         [
                             "id": ext.id.uuidString,
                             "amount": ext.amount,

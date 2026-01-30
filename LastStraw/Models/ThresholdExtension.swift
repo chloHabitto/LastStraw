@@ -8,12 +8,12 @@ import SwiftData
 
 @Model
 final class ThresholdExtension {
-    var id: UUID
-    var amount: Int
-    var date: Date
-    var previousThreshold: Int
+    var id: UUID = UUID()
+    var amount: Int = 0
+    var date: Date = Date()
+    var previousThreshold: Int = 0
     var person: Person?
-    
+
     init(amount: Int, date: Date = Date(), previousThreshold: Int) {
         self.id = UUID()
         self.amount = amount

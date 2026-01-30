@@ -36,7 +36,7 @@ struct ArchiveFlowView: View {
                                     .foregroundColor(theme.mutedForeground)
                             }
                         }
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 20)
                         .padding(.top, 20)
                         
                         Form {
@@ -58,7 +58,7 @@ struct ArchiveFlowView: View {
                                 .padding(.vertical, 14)
                         }
                         .buttonStyle(BubbleButtonStyle())
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 20)
                         .padding(.bottom, 20)
                     }
                 }

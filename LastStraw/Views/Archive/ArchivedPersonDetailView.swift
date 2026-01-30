@@ -17,9 +17,9 @@ struct ArchivedPersonDetailView: View {
     private var accent: Color { settings.accentColor.color }
     
     private var timelineItems: [ArchivedTimelineItem] {
-        let straws = person.straws.map { ArchivedTimelineItem.straw($0) }
-        let blooms = person.blooms.map { ArchivedTimelineItem.bloom($0) }
-        let exts = person.thresholdExtensions.map { ArchivedTimelineItem.extensionItem($0) }
+        let straws = (person.straws ?? []).map { ArchivedTimelineItem.straw($0) }
+        let blooms = (person.blooms ?? []).map { ArchivedTimelineItem.bloom($0) }
+        let exts = (person.thresholdExtensions ?? []).map { ArchivedTimelineItem.extensionItem($0) }
         return (straws + blooms + exts).sorted { $0.date > $1.date }
     }
     
@@ -56,7 +56,7 @@ struct ArchivedPersonDetailView: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 20)
                     .padding(.top, 8)
                     
                     if timelineItems.isEmpty {
@@ -75,12 +75,12 @@ struct ArchivedPersonDetailView: View {
                             Text("Timeline")
                                 .font(.display(18, weight: .semibold))
                                 .foregroundColor(theme.foreground)
-                                .padding(.horizontal, 16)
+                                .padding(.horizontal, 20)
                             ForEach(timelineItems) { item in
                                 archivedTimelineRow(for: item)
                             }
                         }
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 20)
                     }
                 }
                 .padding(.bottom, 20)
