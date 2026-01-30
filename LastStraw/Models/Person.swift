@@ -16,8 +16,11 @@ final class Person {
     var createdAt: Date
     var isArchived: Bool
     var archivedAt: Date?
-    var colorIndex: Int
+    /// Optional for migration: existing records created before this field have nil; use safeColorIndex for display.
+    var colorIndex: Int?
     var thresholdState: ThresholdState
+
+    var safeColorIndex: Int { colorIndex ?? 0 }
     
     @Relationship(deleteRule: .cascade, inverse: \Straw.person)
     var straws: [Straw]
@@ -44,7 +47,7 @@ final class Person {
     }
     
     var color: Color {
-        Theme.personColors[colorIndex % Theme.personColors.count]
+        Theme.personColors[safeColorIndex % Theme.personColors.count]
     }
     
     var initial: String {

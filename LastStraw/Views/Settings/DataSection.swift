@@ -126,7 +126,7 @@ struct ExportDataView: View {
                     "isArchived": person.isArchived,
                     "createdAt": formatter.string(from: person.createdAt),
                     "archivedAt": person.archivedAt.map { formatter.string(from: $0) } as Any,
-                    "colorIndex": person.colorIndex,
+                    "colorIndex": person.safeColorIndex,
                     "thresholdState": person.thresholdState.rawValue,
                     "straws": person.straws.map { straw in
                         [
