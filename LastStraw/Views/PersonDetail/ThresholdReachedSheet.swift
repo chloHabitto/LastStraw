@@ -5,6 +5,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ThresholdReachedSheet: View {
     @Environment(\.modelContext) private var modelContext
@@ -128,6 +129,9 @@ struct ThresholdReachedSheet: View {
                     Button("Later") { dismiss() }
                         .foregroundColor(theme.mutedForeground)
                 }
+            }
+            .onAppear {
+                UINotificationFeedbackGenerator().notificationOccurred(.warning)
             }
         }
     }

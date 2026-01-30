@@ -9,6 +9,7 @@ import Foundation
 
 enum AppCopy {
     static let emptyHomeState = "No one here yet. Maybe that's lucky. Maybe you're just not ready. Either way, we're here."
+    static let emptyHomeTagline = "A place to believe yourself, until you're ready to decide."
     static let emptyArchiveState = "Nothing archived yet. That's okay—take your time."
     static let afterLoggingStraw = "Got it. Your feelings are noted—by you, for you."
     static let thresholdReachedTitle = "You've seen what you said you needed to see."

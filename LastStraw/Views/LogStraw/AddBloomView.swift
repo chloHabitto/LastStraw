@@ -32,13 +32,23 @@ struct AddBloomView: View {
                             .foregroundColor(theme.foreground)
                     }
                     Section {
-                        TextField("Note (optional)", text: $note, axis: .vertical)
+                        TextField("A small moment worth remembering...", text: $note, axis: .vertical)
                             .lineLimit(3...6)
                             .font(.body)
                     } header: {
                         Text("Note")
                             .foregroundColor(theme.foreground)
                     }
+                    Section {
+                        Button(action: saveBloom) {
+                            Text("🌸 Add this bloom")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(BubbleButtonStyle())
+                        .padding()
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
                 }
                 .scrollContentBackground(.hidden)
             }
@@ -48,13 +58,6 @@ struct AddBloomView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") { dismiss() }
                         .foregroundColor(theme.foreground)
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        saveBloom()
-                    }
-                    .foregroundColor(accent)
-                    .fontWeight(.semibold)
                 }
             }
             .alert("Saved", isPresented: $showConfirmation) {

@@ -27,6 +27,12 @@ struct EmptyHomeView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
             
+            Text(AppCopy.emptyHomeTagline)
+                .font(.subheadline)
+                .foregroundColor(theme.mutedForeground)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 40)
+            
             if let onAddPerson {
                 Button("Add your first person", action: onAddPerson)
                     .buttonStyle(BubbleButtonStyle())

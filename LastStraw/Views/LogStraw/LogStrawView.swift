@@ -5,6 +5,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct LogStrawView: View {
     @Environment(\.modelContext) private var modelContext
@@ -88,6 +89,7 @@ struct LogStrawView: View {
     
     private func saveStraw() {
         guard let emotion else { return }
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         let straw = Straw(emotion: emotion, note: note.trimmingCharacters(in: .whitespaces))
         straw.person = person
         person.straws.append(straw)

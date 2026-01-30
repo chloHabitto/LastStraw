@@ -5,6 +5,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ArchiveFlowView: View {
     @Environment(\.modelContext) private var modelContext
@@ -79,6 +80,7 @@ struct ArchiveFlowView: View {
     }
     
     private func archivePerson() {
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         person.isArchived = true
         person.archivedAt = Date()
         try? modelContext.save()
