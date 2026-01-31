@@ -34,6 +34,8 @@ enum AppCopy {
     static let addPersonRelationshipOtherPlaceholder = "Describe your relationship"
     static let thresholdLabel = "How many moments before taking stock?"
     static let thresholdHelper = "After %d moments, you'll get a gentle reminder to reflect."
+    static let editPersonTitle = "Edit person"
+    static let editPersonDescription = "Update their name, relationship, or threshold."
     static let whatHappenedPlaceholder = "What happened?"
     static let howIFeltPlaceholder = "How did it make you feel?"
 }

@@ -12,12 +12,16 @@ struct AddPersonView: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: AppSettings
     
+    /// When non-nil, we're editing this person instead of creating a new one.
+    var personToEdit: Person? = nil
+    
     @State private var name: String = ""
     @State private var relationshipType: RelationshipType = .friend
     @State private var relationshipCustom: String = ""
     @State private var threshold: Int = 5
     
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
+    private var isEditing: Bool { personToEdit != nil }
     
     private var relationshipValue: String {
         relationshipType == .other ? relationshipCustom : relationshipType.rawValue
@@ -55,16 +59,30 @@ struct AddPersonView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear { threshold = settings.defaultThreshold }
+            .onAppear {
+                if let person = personToEdit {
+                    name = person.name
+                    if let type = RelationshipType(rawValue: person.relationship) {
+                        relationshipType = type
+                        relationshipCustom = ""
+                    } else {
+                        relationshipType = .other
+                        relationshipCustom = person.relationship
+                    }
+                    threshold = person.threshold
+                } else {
+                    threshold = settings.defaultThreshold
+                }
+            }
         }
     }
     
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(AppCopy.addPersonTitle)
+            Text(isEditing ? AppCopy.editPersonTitle : AppCopy.addPersonTitle)
                 .font(.display(24, weight: .bold))
                 .foregroundColor(theme.foreground)
-            Text(AppCopy.addPersonDescription)
+            Text(isEditing ? AppCopy.editPersonDescription : AppCopy.addPersonDescription)
                 .font(.body)
                 .foregroundColor(theme.mutedForeground)
         }
@@ -136,12 +154,20 @@ struct AddPersonView: View {
         let rel = relationshipType == .other ? relationshipCustom.trimmingCharacters(in: .whitespaces) : relationshipType.rawValue
         guard !rel.isEmpty else { return }
         
-        let colorIndex = Int.random(in: 0..<Theme.personColors.count)
-        let person = Person(name: trimmedName, relationship: rel, threshold: threshold, colorIndex: colorIndex)
-        modelContext.insert(person)
         do {
-            try modelContext.save()
-            print("✅ Successfully saved person: \(trimmedName)")
+            if let person = personToEdit {
+                person.name = trimmedName
+                person.relationship = rel
+                person.threshold = threshold
+                try modelContext.save()
+                print("✅ Successfully updated person: \(trimmedName)")
+            } else {
+                let colorIndex = Int.random(in: 0..<Theme.personColors.count)
+                let person = Person(name: trimmedName, relationship: rel, threshold: threshold, colorIndex: colorIndex)
+                modelContext.insert(person)
+                try modelContext.save()
+                print("✅ Successfully saved person: \(trimmedName)")
+            }
         } catch {
             print("❌ Failed to save person: \(error)")
         }

@@ -17,6 +17,7 @@ struct PersonDetailView: View {
     @State private var showAddBloom = false
     @State private var showArchiveFlow = false
     @State private var showThresholdReachedSheet = false
+    @State private var showEditPerson = false
     
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     private var accent: Color { settings.accentColor.color }
@@ -165,11 +166,19 @@ struct PersonDetailView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
-                    Button(action: { showLogStraw = true }) {
-                        Label("Log a straw", systemImage: "plus")
+                    if !person.isArchived {
+                        Button(action: { showLogStraw = true }) {
+                            Label("Log a straw", systemImage: "plus")
+                        }
+                        Button(action: { showAddBloom = true }) {
+                            Label("Log a bloom", systemImage: "leaf")
+                        }
+                        Button(action: { showArchiveFlow = true }) {
+                            Label("Archive", systemImage: "archivebox")
+                        }
                     }
-                    Button(action: { showAddBloom = true }) {
-                        Label("Log a bloom", systemImage: "leaf")
+                    Button(action: { showEditPerson = true }) {
+                        Label("Edit", systemImage: "pencil")
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")
@@ -191,6 +200,10 @@ struct PersonDetailView: View {
         }
         .sheet(isPresented: $showThresholdReachedSheet) {
             ThresholdReachedSheet(person: person, onArchive: { showArchiveFlow = true })
+                .environmentObject(settings)
+        }
+        .sheet(isPresented: $showEditPerson) {
+            AddPersonView(personToEdit: person)
                 .environmentObject(settings)
         }
     }

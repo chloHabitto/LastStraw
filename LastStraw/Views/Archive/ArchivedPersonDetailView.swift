@@ -13,6 +13,9 @@ struct ArchivedPersonDetailView: View {
     @EnvironmentObject private var settings: AppSettings
     let person: Person
     
+    @State private var showEditPerson = false
+    @State private var showDeleteConfirmation = false
+    
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
     private var accent: Color { settings.accentColor.color }
     
@@ -97,11 +100,31 @@ struct ArchivedPersonDetailView: View {
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: unarchivePerson) {
-                    Label("Restore", systemImage: "arrow.uturn.backward")
+                Menu {
+                    Button(action: unarchivePerson) {
+                        Label("Restore", systemImage: "arrow.uturn.backward")
+                    }
+                    Button(action: { showEditPerson = true }) {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                    Button(role: .destructive, action: { showDeleteConfirmation = true }) {
+                        Label("Delete", systemImage: "trash")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .foregroundColor(accent)
                 }
-                .foregroundColor(accent)
             }
+        }
+        .sheet(isPresented: $showEditPerson) {
+            AddPersonView(personToEdit: person)
+                .environmentObject(settings)
+        }
+        .alert("Delete this person?", isPresented: $showDeleteConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) { deletePerson() }
+        } message: {
+            Text("This will permanently delete this person and all their moments. This cannot be undone.")
         }
     }
     
@@ -113,6 +136,17 @@ struct ArchivedPersonDetailView: View {
             print("✅ Successfully unarchived person")
         } catch {
             print("❌ Failed to unarchive person: \(error)")
+        }
+        dismiss()
+    }
+    
+    private func deletePerson() {
+        modelContext.delete(person)
+        do {
+            try modelContext.save()
+            print("✅ Successfully deleted person")
+        } catch {
+            print("❌ Failed to delete person: \(error)")
         }
         dismiss()
     }
