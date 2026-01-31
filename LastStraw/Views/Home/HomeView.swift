@@ -36,6 +36,20 @@ struct HomeView: View {
                 } else {
                     ScrollView {
                         VStack(spacing: 16) {
+                            // Custom hero header (matching React's header)
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Last Straw")
+                                    .font(.display(28, weight: .bold))
+                                    .foregroundColor(theme.foreground)
+                                Text(AppCopy.emptyHomeTagline)
+                                    .font(.system(size: 17))
+                                    .italic()
+                                    .foregroundColor(theme.mutedForeground)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 10)
+                            .padding(.bottom, 6)
+
                             AppCard {
                                 HStack(spacing: 0) {
                                     VStack {
@@ -87,7 +101,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationTitle("Last Straw")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: { showAddPerson = true }) {
