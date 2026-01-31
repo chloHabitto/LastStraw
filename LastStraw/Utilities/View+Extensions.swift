@@ -73,11 +73,15 @@ struct FadeInModifier: ViewModifier {
             .opacity(appeared ? 1 : 0)
             .offset(y: appeared ? 0 : 10)
             .onAppear {
+                appeared = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                     withAnimation(.easeOut(duration: 0.4)) {
                         appeared = true
                     }
                 }
+            }
+            .onDisappear {
+                appeared = false
             }
     }
 }
@@ -100,11 +104,15 @@ struct ScaleInModifier: ViewModifier {
             .opacity(appeared ? 1 : 0)
             .scaleEffect(appeared ? 1 : 0.95)
             .onAppear {
+                appeared = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                         appeared = true
                     }
                 }
+            }
+            .onDisappear {
+                appeared = false
             }
     }
 }
@@ -147,9 +155,15 @@ struct ScreenAppearModifier: ViewModifier {
             .opacity(appeared ? 1 : 0)
             .offset(y: appeared ? 0 : 20)
             .onAppear {
-                withAnimation(.easeOut(duration: 0.4)) {
-                    appeared = true
+                appeared = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    withAnimation(.easeOut(duration: 0.4)) {
+                        appeared = true
+                    }
                 }
+            }
+            .onDisappear {
+                appeared = false
             }
     }
 }
@@ -167,9 +181,15 @@ struct PulseSoft: ViewModifier {
         content
             .opacity(isPulsing ? 1 : 0.8)
             .onAppear {
-                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
-                    isPulsing = true
+                isPulsing = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                        isPulsing = true
+                    }
                 }
+            }
+            .onDisappear {
+                isPulsing = false
             }
     }
 }
