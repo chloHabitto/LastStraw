@@ -24,6 +24,10 @@ struct BubbleCard: ViewModifier {
         content
             .background(theme.card)
             .clipShape(RoundedRectangle(cornerRadius: 32))
+            .overlay(
+                RoundedRectangle(cornerRadius: 32)
+                    .stroke(theme.border.opacity(0.5), lineWidth: 1)
+            )
             .shadow(color: theme.primary.opacity(0.15), radius: 20, x: 0, y: 4)
             .shadow(color: theme.bubbleGlow.opacity(0.2), radius: 40, x: 0, y: 8)
     }

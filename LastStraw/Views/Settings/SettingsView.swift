@@ -114,7 +114,8 @@ struct SettingsView: View {
             RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(theme.border.opacity(0.5), lineWidth: 1)
         )
-        .shadow(color: theme.primary.opacity(0.12), radius: 12, x: 0, y: 2)
+        .shadow(color: theme.primary.opacity(0.15), radius: 20, x: 0, y: 4)
+        .shadow(color: theme.bubbleGlow.opacity(0.2), radius: 40, x: 0, y: 8)
         .padding(.horizontal, 20)
     }
 }
