@@ -37,6 +37,7 @@ struct LogStrawView: View {
                             .font(.footnote)
                             .foregroundColor(theme.mutedForeground)
                     }
+                    .fadeIn(delay: 0.1)
                     Section {
                         VStack(alignment: .leading, spacing: 8) {
                             TextField("Just for you — a few words to remember this moment...", text: $note, axis: .vertical)
@@ -57,6 +58,7 @@ struct LogStrawView: View {
                             .font(.footnote)
                             .foregroundColor(theme.mutedForeground)
                     }
+                    .fadeIn(delay: 0.2)
                     Section {
                         Button(action: saveStraw) {
                             Text("Log this moment")
@@ -68,6 +70,7 @@ struct LogStrawView: View {
                     }
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
+                    .fadeIn(delay: 0.3)
                 }
                 .scrollContentBackground(.hidden)
             }

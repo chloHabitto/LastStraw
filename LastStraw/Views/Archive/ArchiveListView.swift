@@ -72,6 +72,7 @@ struct ArchiveListView: View {
             .fullScreenCover(item: $selectedArchivedPerson) { person in
                 NavigationStack {
                     ArchivedPersonDetailView(person: person)
+                        .screenAppear()
                         .environmentObject(settings)
                 }
             }

@@ -31,6 +31,7 @@ struct AddBloomView: View {
                         Text("How did you feel?")
                             .foregroundColor(theme.foreground)
                     }
+                    .fadeIn(delay: 0.1)
                     Section {
                         TextField("A small moment worth remembering...", text: $note, axis: .vertical)
                             .lineLimit(3...6)
@@ -39,6 +40,7 @@ struct AddBloomView: View {
                         Text("Note")
                             .foregroundColor(theme.foreground)
                     }
+                    .fadeIn(delay: 0.2)
                     Section {
                         Button(action: saveBloom) {
                             Text("🌸 Add this bloom")
@@ -49,6 +51,7 @@ struct AddBloomView: View {
                     }
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
+                    .fadeIn(delay: 0.3)
                 }
                 .scrollContentBackground(.hidden)
             }

@@ -44,24 +44,31 @@ struct SettingsView: View {
                         // Group 1: Profile (standalone)
                         settingsCard(cornerRadius: 20) {
                             SettingsMenuItem(icon: "person.fill", label: "Profile", description: "Your personal info", isLast: true) { path.append(SettingsRoute.profile) }
+                                .fadeIn(delay: 0)
                         }
                         
                         // Group 2: Main Settings (3 items)
                         settingsCard {
                             SettingsMenuItem(icon: "paintbrush.fill", label: "Appearance", description: "Theme, colors", isLast: false) { path.append(SettingsRoute.appearance) }
+                                .fadeIn(delay: 0.05)
                             SettingsMenuItem(icon: "bell.fill", label: "Notifications", description: "Reminders & check-ins", isLast: false) { path.append(SettingsRoute.notifications) }
+                                .fadeIn(delay: 0.1)
                             SettingsMenuItem(icon: "lock.fill", label: "Privacy & Security", description: "Lock, hide, protect", isLast: true) { path.append(SettingsRoute.privacy) }
+                                .fadeIn(delay: 0.15)
                         }
                         
                         // Group 3: Customization (2 items)
                         settingsCard {
                             SettingsMenuItem(icon: "slider.horizontal.3", label: "Defaults", description: "Threshold, emotions", isLast: false) { path.append(SettingsRoute.defaults) }
+                                .fadeIn(delay: 0.2)
                             SettingsMenuItem(icon: "externaldrive.fill", label: "Your Data", description: "Export, delete", isLast: true) { path.append(SettingsRoute.data) }
+                                .fadeIn(delay: 0.25)
                         }
                         
                         // Group 4: About (standalone)
                         settingsCard(cornerRadius: 20) {
                             SettingsMenuItem(icon: "info.circle.fill", label: "About", description: "Version, legal, feedback", isLast: true) { path.append(SettingsRoute.about) }
+                                .fadeIn(delay: 0.3)
                         }
                         
                         // Footer: Heart icon + mission tagline

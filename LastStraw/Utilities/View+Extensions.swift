@@ -89,6 +89,77 @@ extension View {
     }
 }
 
+// MARK: - Scale-In Animation (for cards appearing)
+
+struct ScaleInModifier: ViewModifier {
+    let delay: Double
+    @State private var appeared = false
+
+    func body(content: Content) -> some View {
+        content
+            .opacity(appeared ? 1 : 0)
+            .scaleEffect(appeared ? 1 : 0.95)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                        appeared = true
+                    }
+                }
+            }
+    }
+}
+
+extension View {
+    func scaleIn(delay: Double = 0) -> some View {
+        modifier(ScaleInModifier(delay: delay))
+    }
+}
+
+// MARK: - Gentle Bounce Animation (for emphasis)
+
+struct GentleBounce: ViewModifier {
+    @State private var isBouncing = false
+
+    func body(content: Content) -> some View {
+        content
+            .offset(y: isBouncing ? -4 : 0)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
+                    isBouncing = true
+                }
+            }
+    }
+}
+
+extension View {
+    func gentleBounce() -> some View {
+        modifier(GentleBounce())
+    }
+}
+
+// MARK: - Screen Appear Animation (for full views)
+
+struct ScreenAppearModifier: ViewModifier {
+    @State private var appeared = false
+
+    func body(content: Content) -> some View {
+        content
+            .opacity(appeared ? 1 : 0)
+            .offset(y: appeared ? 0 : 20)
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.4)) {
+                    appeared = true
+                }
+            }
+    }
+}
+
+extension View {
+    func screenAppear() -> some View {
+        modifier(ScreenAppearModifier())
+    }
+}
+
 struct PulseSoft: ViewModifier {
     @State private var isPulsing = false
     

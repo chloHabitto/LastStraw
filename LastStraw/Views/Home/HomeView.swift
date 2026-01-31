@@ -60,10 +60,11 @@ struct HomeView: View {
                                     .frame(maxWidth: .infinity)
                                 }
                             }
+                            .fadeIn(delay: 0)
                             .padding(.bottom, 8)
 
                             LazyVStack(spacing: 16) {
-                                ForEach(activePeople) { person in
+                                ForEach(Array(activePeople.enumerated()), id: \.element.id) { index, person in
                                     Button {
                                         selectedPerson = person
                                     } label: {
@@ -77,6 +78,7 @@ struct HomeView: View {
                                             Label("Delete", systemImage: "trash")
                                         }
                                     }
+                                    .scaleIn(delay: Double(index) * 0.08)
                                 }
                             }
                         }
@@ -102,6 +104,7 @@ struct HomeView: View {
             .fullScreenCover(item: $selectedPerson) { person in
                 NavigationStack {
                     PersonDetailView(person: person)
+                        .screenAppear()
                         .environmentObject(settings)
                 }
             }

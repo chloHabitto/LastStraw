@@ -45,11 +45,11 @@ struct AddPersonView: View {
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
-                        header
-                        nameField
-                        relationshipField
-                        thresholdField
-                        actions
+                        header.fadeIn(delay: 0.1)
+                        nameField.fadeIn(delay: 0.15)
+                        relationshipField.fadeIn(delay: 0.2)
+                        thresholdField.fadeIn(delay: 0.25)
+                        actions.fadeIn(delay: 0.3)
                     }
                     .padding(20)
                 }

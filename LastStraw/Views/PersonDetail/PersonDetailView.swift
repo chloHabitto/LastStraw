@@ -70,6 +70,7 @@ struct PersonDetailView: View {
                             }
                         }
                     }
+                    .scaleIn(delay: 0)
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
                     
@@ -96,34 +97,12 @@ struct PersonDetailView: View {
                                 .padding(.horizontal, 20)
                             ForEach(Array(timelineItems.enumerated()), id: \.element.id) { index, item in
                                 timelineRow(for: item)
-                                    .transition(.opacity.combined(with: .move(edge: .top)))
-                                    .animation(.easeOut(duration: 0.3).delay(Double(index) * 0.05), value: timelineItems.count)
+                                    .fadeIn(delay: Double(index) * 0.05)
                             }
                         }
                         .padding(.horizontal, 20)
                     }
                     
-                    // Actions Section (after timeline)
-                    if !person.isArchived {
-                        VStack(spacing: 12) {
-                            Button(action: { showArchiveFlow = true }) {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "archivebox.fill")
-                                        .font(.body)
-                                    Text("Archive this relationship")
-                                        .font(.display(14, weight: .medium))
-                                }
-                                .foregroundColor(theme.foreground)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 14)
-                                .background(theme.muted)
-                                .clipShape(Capsule())
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 24)
-                    }
                 }
                 .padding(.bottom, 120)
             }
@@ -191,11 +170,6 @@ struct PersonDetailView: View {
                     }
                     Button(action: { showAddBloom = true }) {
                         Label("Log a bloom", systemImage: "leaf")
-                    }
-                    if !person.hasReachedThreshold {
-                        Button(role: .destructive, action: { showArchiveFlow = true }) {
-                            Label("Archive", systemImage: "archivebox")
-                        }
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")
