@@ -54,9 +54,11 @@ struct ArchiveListView: View {
                             LazyVStack(spacing: 16) {
                                 ForEach(Array(archivedPeople.enumerated()), id: \.element.id) { index, person in
                                     Button {
+                                        print("🔍 Tapped archived person: \(person.name)")
                                         selectedArchivedPerson = person
                                     } label: {
                                         ArchivedPersonRowView(person: person)
+                                            .contentShape(Rectangle())
                                     }
                                     .buttonStyle(.plain)
                                     .fadeIn(delay: Double(index) * 0.1)
@@ -69,6 +71,9 @@ struct ArchiveListView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
+            .onChange(of: selectedArchivedPerson) { oldValue, newValue in
+                print("🔍 selectedArchivedPerson changed from \(oldValue?.name ?? "nil") to \(newValue?.name ?? "nil")")
+            }
             .fullScreenCover(item: $selectedArchivedPerson) { person in
                 NavigationStack {
                     ArchivedPersonDetailView(person: person)

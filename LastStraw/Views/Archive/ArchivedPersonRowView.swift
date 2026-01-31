@@ -8,7 +8,6 @@ import SwiftUI
 struct ArchivedPersonRowView: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: AppSettings
-    @State private var isPressed = false
     let person: Person
 
     private var theme: ThemeColors { Theme.colors(for: colorScheme) }
@@ -92,13 +91,6 @@ struct ArchivedPersonRowView: View {
         .overlay(
             RoundedRectangle(cornerRadius: 32)
                 .stroke(person.hasReachedThreshold ? theme.destructive.opacity(0.3) : Color.clear, lineWidth: 2)
-        )
-        .scaleEffect(isPressed ? 0.98 : 1.0)
-        .animation(.easeOut(duration: 0.3), value: isPressed)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in if !isPressed { isPressed = true } }
-                .onEnded { _ in isPressed = false }
         )
     }
 }
