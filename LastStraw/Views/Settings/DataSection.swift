@@ -45,6 +45,7 @@ struct DataDetailView: View {
         }
         .navigationTitle("Your data")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
         .alert("Delete all data?", isPresented: $showDeleteConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) { deleteAllData() }

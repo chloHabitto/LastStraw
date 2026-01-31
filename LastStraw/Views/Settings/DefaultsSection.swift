@@ -50,6 +50,7 @@ struct DefaultsDetailView: View {
         }
         .navigationTitle("Defaults")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 
@@ -107,6 +108,7 @@ struct DefaultEmotionsView: View {
         }
         .navigationTitle("Default emotions")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 

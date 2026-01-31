@@ -74,6 +74,7 @@ struct AboutDetailView: View {
         }
         .navigationTitle("About")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
     }
     
     private var rowDivider: some View {

@@ -44,6 +44,7 @@ struct AppearanceDetailView: View {
         }
         .navigationTitle("Appearance")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
     }
     
     private func themePillButton(mode: ThemeMode) -> some View {

@@ -51,6 +51,7 @@ struct NotificationsDetailView: View {
         }
         .navigationTitle("Notifications")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
     }
     
     private func pillButton(title: String, isActive: Bool, action: @escaping () -> Void) -> some View {

@@ -36,6 +36,7 @@ struct PrivacyDetailView: View {
         }
         .navigationTitle("Privacy & Security")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
     }
     
     private var divider: some View {
